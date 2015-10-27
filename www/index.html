@@ -12,6 +12,7 @@
         <script type="text/javascript" src="js/jquery-mobile/jquery-1.11.3.min.js"></script>
         <script type="text/javascript" src="js/jquery-mobile/jquery.mobile-1.4.5.js"></script>
         <script type="text/javascript" src="js/index.js"></script>
+        <script type="text/javascript" src="uniqueid.js"></script>
         <script type="text/javascript" src="js/webRequest.js"></script>
 <!--        <script type="text/javascript" src="js/common.js"></script>-->
         <link rel="stylesheet" type="text/css" href="css/common.css" />
@@ -30,10 +31,22 @@
             
             
             function onDeviceReady() {
+                alert("resr");
+                window.plugins.uniqueDeviceID.get(success, fail);
 //                var marginleft=$(".app").width()/2-$(".appLogo").width()/2;
 //                $(".appLogo").css("margin-left", marginleft);
 //                  $(".appLogo").show();
             }
+            
+            function success(uuid)
+            {
+                alert(uuid);
+            };
+            
+            function fail()
+            {
+                alert("fail");
+            };
         </script>
     </head>
     <body>
