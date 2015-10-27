@@ -1,0 +1,556 @@
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
+* {
+    -webkit-tap-highlight-color: rgba(0,0,0,0); /* make transparent link selection, adjust last value opacity 0 to 1.0 */
+}
+
+@font-face {
+    font-family: 'Roboto-Regular'; /*a name to be used later*/
+    src: url('../font/Roboto-Regular.ttf'); /*URL to font*/
+}
+
+@font-face {
+    font-family: 'Roboto-Bold'; /*a name to be used later*/
+    src: url('../font/Roboto-Bold.ttf'); /*URL to font*/
+}
+
+@font-face {
+    font-family: 'Roboto-Light'; /*a name to be used later*/
+    src: url('../font/Roboto-Light.ttf'); /*URL to font*/
+}
+
+@font-face {
+    font-family: 'Roboto-Thin'; /*a name to be used later*/
+    src: url('../font/Roboto-Thin.ttf'); /*URL to font*/
+}
+
+@font-face {
+    font-family: 'Roboto-Medium'; /*a name to be used later*/
+    src: url('../font/Roboto-Medium.ttf'); /*URL to font*/
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width:100%;
+/*    overflow: hidden;*/
+    overflow-x: hidden;
+    overflow-y: hidden;
+    -webkit-touch-callout: none;                /* prevent callout to copy image, etc when tap to hold */
+    -webkit-text-size-adjust: none;             /* prevent webkit from resizing text to fit */
+    -webkit-user-select: none;
+    -webkit-overflow-scrolling: touch;
+    /* prevent copy paste, to allow, change 'none' to 'text' */
+/*    background-color:#53DCDF;*/
+    background-color: white;
+    font-family:'HelveticaNeue-Light', 'HelveticaNeue', Helvetica, Arial, sans-serif;
+/*    font-size:12px;*/
+/*    text-transform:uppercase;*/
+}
+
+button:focus { 
+    outline:0 !important; 
+}
+
+input{
+    text-indent: 10px;
+    background-color: #44c5c7; 
+    color: white;
+    border: 1px solid white;
+    border-color:white;
+    border-style: solid;
+    
+}
+
+input:focus { 
+    outline:0 !important; 
+}
+
+
+
+.app {
+/*    background:url(../img/pssb_logo.png) no-repeat center top;  170px x 200px */
+    
+/*    left:50%;*/
+/*    top:50%;*/
+    height:100%;                    
+    width:100%;                    
+/*    text-align:center;*/
+    padding:0px 0px 0px 0px;     /* image height is 200px (bottom 20px are overlapped with text) */
+    margin:0px 0px 0px 0px;  /* offset vertical: half of image height and text area height */
+                                   /* offset horizontal: half of text area width */
+}
+
+.event {
+    border-radius:4px;
+    -webkit-border-radius:4px;
+    color:#FFFFFF;
+    font-size:12px;
+    margin:0px 30px;
+    padding:2px 0px;
+}
+
+.event.listening {
+    background-color:#333333;
+    display:block;
+}
+
+.event.received {
+    background-color:#4B946A;
+    display:none;
+}
+
+@keyframes fade {
+    from { opacity: 1.0; }
+    50% { opacity: 0.4; }
+    to { opacity: 1.0; }
+}
+ 
+@-webkit-keyframes fade {
+    from { opacity: 1.0; }
+    50% { opacity: 0.4; }
+    to { opacity: 1.0; }
+}
+ 
+.blink {
+    animation:fade 3000ms infinite;
+    -webkit-animation:fade 3000ms infinite;
+}
+
+
+/* ------------------------------------------------------------------------------------*/
+/* ------------------------------------------------------------------------------------*/
+/* ------------------------------------------------------------------------------------*/
+/* Top Header Style*/
+.menuheader{
+    height: 10%;
+	width:100%;
+    background-color: black;
+	position:absolute;
+	top:0px;
+}
+
+.menuheaderleft{
+    height: 100%;
+    width: 10%;
+}
+
+.menuheaderright{
+    position:absolute;
+    top:0;
+    right:0;
+    height:100%;
+    width:90%;
+    background-color: transparent;
+}
+
+.menubutton{
+    width: 100%;
+    height: auto;
+    background-color: transparent;
+}
+
+
+.buttonbg{
+    width: 10%;
+    height: 100%;
+    background-color: transparent;
+    border:none;
+    top: 0px;
+    left: 0px;
+    position: absolute;
+}
+
+.pageTitileImgBG{
+    position: absolute;
+    left: 80%;
+/*    width: 100%;*/
+    height: 100%;
+    background-color: transparent;
+    border:none;
+/*    float: right;*/
+/*
+    right:75px;
+    top: 0px;
+*/
+/*    position: absolute;*/
+}
+
+.inboxBtn{
+/*    position: absolute;*/
+    width: 10%;
+    height: 100%;
+    background-color: transparent;
+    border:none;
+    float: right;
+    display: none;
+/*
+    right:110px;
+    top: 0px;
+*/
+    
+}
+
+.pageTitileImg{
+    width: 100%;
+    height: 100%;
+    background-color: transparent;
+    vertical-align: middle;
+    
+}
+
+.inboxBtnImg{
+    width: auto;
+    height: 50%;
+    background-color: transparent;
+    position: relative;
+    vertical-align: middle;
+}
+
+.menubutton:active {
+    vertical-align: top;
+    padding: 1px 1px 1px;
+    border: none;
+}
+
+.pagetitle{
+    position: absolute;
+    width: 80%;
+    color: white;
+    height: 100%;
+    line-height: 100%;
+    background-color: transparent;
+    border:none;
+    font-size: 4vw;
+    font-family: "times new roman";
+	text-align:left;
+/*    float: right;*/
+/*    margin-left: 10px;*/
+}
+
+.backBtn{
+    background-color: transparent;
+    border:none;
+    vertical-align: middle;
+    height: 40px;
+}
+
+.backBtnImg{
+    width: auto;
+    height: 100%;
+    background-color: transparent;
+}
+
+
+.badgeNumber{
+   position:relative;
+    float: right;
+   top:1vw;
+   right:-4vw;
+   font-size:2vw;
+   background:red;
+   color:white;
+   width:3vw;
+    height:3vw;
+   text-align:center;
+   line-height:3vw;
+   border-radius:50%;
+   box-shadow:0 0 1px #333;
+   border: 2px solid red;
+}
+/* Top Header Style end */
+/* ------------------------------------------------------------------------------------*/
+/* ------------------------------------------------------------------------------------*/
+/* ------------------------------------------------------------------------------------*/
+
+
+
+/* ------------------------------------------------------------------------------------*/
+/* ------------------------------------------------------------------------------------*/
+/* ------------------------------------------------------------------------------------*/
+/* Loading Style */
+.loadingPage{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.7);
+    z-index: 98;
+}
+
+.loadingFrame{
+    position: absolute;
+    top:0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 14vw;
+    height: 14vw;
+    background-color: black;
+    border-radius: 10px;
+    margin: auto;
+    z-index: 99;
+}
+
+.loadingIcon{
+    height: 80%;
+    width: 80%;
+    position: absolute;
+    top: 10%;
+    left: 10%;
+}
+
+/* Loading Style end */
+/* ------------------------------------------------------------------------------------*/
+/* ------------------------------------------------------------------------------------*/
+/* ------------------------------------------------------------------------------------*/
+
+
+
+/* ------------------------------------------------------------------------------------*/
+/* ------------------------------------------------------------------------------------*/
+/* ------------------------------------------------------------------------------------*/
+/* change password*/
+
+.changePwdDiv{
+    height:60%;
+    width: 100%;
+    position: relative;
+    top:0%;
+    background-color: lightgray;
+    width: 100%;
+}
+
+
+.newPwd{
+    width: 90%;
+    position: absolute;
+    left: 5%;
+    height:5%;
+    top: 30%;
+    border-radius: 10px;
+    background-color: white;
+    color: #565656;
+    font-size: 3vw;
+    padding: 1vw;
+}
+
+.confirmPwd{
+    width: 90%;
+    position: absolute;
+    left: 5%;
+    height:5%;
+    top: 40%;
+    border-radius: 10px;
+    background-color: white;
+    color: #565656;
+    font-size: 3vw;
+    padding: 1vw;
+}
+
+.btnChangePwd{
+    position: absolute;
+    right: 3%;
+    border: none;
+    outline: 0;
+    height: 15%;
+    bottom: 0;
+    width: auto;
+    background-color: transparent;
+    color: deepskyblue;
+    font-size: 3vw;
+}
+
+.btnChangePwdClose{
+    position: absolute;
+    left: 3%;
+    border: none;
+    outline: 0;
+    height: 15%;
+    bottom: 0;
+    width: auto;
+    background-color: transparent;
+    color: deepskyblue;
+    font-size: 3vw;
+}
+
+
+
+.changePwdLbl{
+    text-align: center;
+    width: 100%;
+    position: absolute;
+    padding: 0;
+    margin: 0;
+    height: 80%;
+    top: 10%;
+    border-radius: 10px;
+    background-color: transparent;
+    color: #565656;
+    resize: none;
+    min-height: 73%;
+    max-height: 73%;    
+    font-size: 3vw;
+    padding: 1vw;
+    box-sizing: border-box;
+}
+
+.changePwdFrame{
+    position: absolute;
+    height: 100%;
+    width: 100%;
+/*    display: none;*/
+    background-color: transparent;
+    z-index: 89;
+}
+
+/* ------------------------------------------------------------------------------------*/
+/* ------------------------------------------------------------------------------------*/
+/* ------------------------------------------------------------------------------------*/
+
+
+/* ------------------------------------------------------------------------------------*/
+/* ------------------------------------------------------------------------------------*/
+/* ------------------------------------------------------------------------------------*/
+/* about us*/
+.aboutUsBg{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.6);
+    z-index: 95;
+}
+
+.aboutUsContent{
+    position: absolute;
+    width: 95%;
+    height: 90%;
+    left: 2.5%;
+    top: 7%;
+    background-color: white;
+    z-index: 96;
+}
+
+.aboutUsHeader{
+    position: absolute;
+    width: 100%;
+    height: 10%;
+    background-color: black;
+}
+
+.aboutUsDetails{
+    position: absolute;
+    width: 100%;
+    height: 90%;
+    top: 10%;
+    background: URL("../img/bg.png");
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+}
+
+.aboutUsTitle{
+    position: absolute;
+    height: 100%;
+    width: 90%;
+    color: white; 
+    font-size: 4vw;
+    background-color: transparent;
+    font-family: "times new roman";
+    border: none;
+    outline: none;
+}
+
+.aboutUsCloseBtn{
+    position: absolute;
+    height: 100%;
+    width: 10%;
+    right: 0;
+    border: none;
+    outline: none;
+    background-color: transparent;
+}
+
+.aboutUsCloseBtn img{
+    height: auto;
+    width: 100%;
+    background-color: transparent;
+}
+
+
+.aboutUsAppLogoFrame{
+    position: absolute;
+    top: 0%;
+    width: 100%;
+    height: 50%;
+    background-color: transparent;
+/*    display: none;*/
+}
+
+.aboutUsAppLogo{
+    width: auto;
+    height: 100%;
+}
+
+
+.aboutUsInfo{
+    position: absolute;
+    background-color: rgba(255, 255, 255, 0.6);
+    height: 40%;
+    width: 90%;
+    left: 5%;
+    top: 50%;
+    border-radius: 5px 5px 5px 5px;
+}
+
+.aboutUsInfo h1{
+    font-size: 3vw;
+    font-family: "times new roman";
+    margin: 1% 1% 1% 3%;
+}
+
+.aboutUsInfo img{
+    height: auto;
+    width: 5vw;
+    margin: 0 3% 0 3%;
+    background-color: transparent;
+    display: inline-block;
+    vertical-align: top;
+/*    float: left;*/
+}
+
+.aboutUsInfo p{
+    width: 80%;
+    margin-top: 0;
+    background-color: transparent;
+    left: 20%;
+    display: inline-block;
+    vertical-align: top;
+    line-height: 5vw;
+/*    float: left;*/
+}
+
+.aboutUsInfo div{
+    position: none;
+    vertical-align: top;
+}
+
+
+/* ------------------------------------------------------------------------------------*/
+/* ------------------------------------------------------------------------------------*/
+/* ------------------------------------------------------------------------------------*/
