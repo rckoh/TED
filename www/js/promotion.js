@@ -1,4 +1,3 @@
-
 var app = {
     // Application Constructor
     initialize: function() {
@@ -209,3 +208,7 @@ function pageSwipeRight(){
     }
 }
 
+function initPromoList(){
+    var mid=getUrlParameter("mID");
+    getMerchantPromoList(mid);
+}

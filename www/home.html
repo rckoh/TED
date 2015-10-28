@@ -10,7 +10,7 @@
         <script type="text/javascript" src="js/jquery-mobile/jquery.mobile-1.4.5.js"></script>
         <script type="text/javascript" src="cordova.js"></script>
         <script type="text/javascript" src="js/home.js"></script>
-<!--        <script type="text/javascript" src="js/webRequest.js"></script>-->
+        <script type="text/javascript" src="js/webRequest.js"></script>
         <script type="text/javascript" src="js/slidemenu.js"></script>
 <!--        <script type="text/javascript" src="js/common.js"></script>-->
         <link rel="stylesheet" type="text/css" href="css/common.css" />
@@ -75,6 +75,7 @@
                     <div class="wrapper" id="wrapper">
                         <div class="scroll-content" id="scroll-content">
                             <ul class="scrollul" id="scrollul">
+<!--
                                 <li>
                                     <div class="merchantDiv">
                                         <img class="merchantImageSeperator" src="img/eventSeperator.png" />
@@ -117,6 +118,7 @@
                                         <span class="merchantFollow"><img src="img/addFollow.png"/>Following</span>
                                     </div>
                                 </li>
+-->
                             </ul>
                             <br>
                         </div>
@@ -136,8 +138,6 @@
         <script type="text/javascript">
             app.initialize();
             $(document).ready(function(){
-                slideMenu.initSlideMenu();
-                
                 if (navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|IEMobile)/)) {
                     var marginleft=$(".aboutUsContent").width()/2-$(this).width()/2;
                     $(".aboutUsAppLogo").css("margin-left", marginleft);
@@ -149,6 +149,8 @@
                         $(".aboutUsAppLogo").show();
                     });
                 }
+                slideMenu.initSlideMenu();
+                initMerchantList();
             });
             
             

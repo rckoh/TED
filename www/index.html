@@ -12,9 +12,8 @@
         <script type="text/javascript" src="js/jquery-mobile/jquery-1.11.3.min.js"></script>
         <script type="text/javascript" src="js/jquery-mobile/jquery.mobile-1.4.5.js"></script>
         <script type="text/javascript" src="js/index.js"></script>
-        <script type="text/javascript" src="uniqueid.js"></script>
         <script type="text/javascript" src="js/webRequest.js"></script>
-<!--        <script type="text/javascript" src="js/common.js"></script>-->
+        <script type="text/javascript" src="js/common.js"></script>
         <link rel="stylesheet" type="text/css" href="css/common.css" />
         <link rel="stylesheet" type="text/css" href="css/index.css" />
         <script type="text/javascript">
@@ -25,28 +24,12 @@
         <script type="text/javascript">
             document.addEventListener("deviceready", onDeviceReady, false);
             
-            function login(){
-                window.location = "home.html";
-            }
-            
-            
             function onDeviceReady() {
-                alert("resr");
-                window.plugins.uniqueDeviceID.get(success, fail);
 //                var marginleft=$(".app").width()/2-$(".appLogo").width()/2;
 //                $(".appLogo").css("margin-left", marginleft);
 //                  $(".appLogo").show();
             }
             
-            function success(uuid)
-            {
-                alert(uuid);
-            };
-            
-            function fail()
-            {
-                alert("fail");
-            };
         </script>
     </head>
     <body>
@@ -56,13 +39,13 @@
                     <img class="appLogo" src="img/logo.png"/>
                 </div>
                 <div class="loginDetails">
-                    <input class="loginTextBox" placeholder="USER NAME" type="text" maxlength="15" id="username"></input>
+                    <input class="loginTextBox" placeholder="USER NAME" type="text" maxlength="15" id="username" value="0177028082"></input>
                     
-                    <input class="pwdTextBox" placeholder="PASSWORD" type="password" maxlength="15" id="password"></input>
+                    <input class="pwdTextBox" placeholder="PASSWORD" type="password" maxlength="15" id="pwd" value="123456"></input>
                     
-                    <button class="btnLogin" onclick="postLogin();">Login</button>
+                    <button class="btnLogin" onclick="login();">Login</button>
                     
-                    <button class="btnLoginFB" onclick=""><img src="img/fblogin.png"/></button>
+                    <button class="btnLoginFB" onclick="fbLogin();"><img src="img/fblogin.png"/></button>
                     
                     <button class="btnForgetPassword" onclick=""><u>FORGOT PASSWORD</u></button>
                 </div>  
@@ -88,6 +71,23 @@
                 $(".appLogo").css("margin-left", marginleft);
                 $(".appLogo").show();
             });
+            
+            function fbLogin(){
+                var permission=["public_profile"];
+                facebookConnectPlugin.login(permission, 
+                                            fbLoginSuccess, 
+                                            function (error) { alert("" + error)}
+                );
+                
+                var fbLoginSuccess = function (userData) {
+                    alert("UserInfo: " + JSON.stringify(userData));
+                    facebookConnectPlugin.getAccessToken(function(token) {
+                        alert("Token: " + token);
+                    }, function(err) {
+                        alert("Could not get access token: " + err);
+                    });
+                }
+            }
         </script>
     </body>
 </html>

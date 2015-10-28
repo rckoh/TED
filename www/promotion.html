@@ -10,8 +10,8 @@
         <script type="text/javascript" src="js/jquery-mobile/jquery.mobile-1.4.5.js"></script>
         <script type="text/javascript" src="cordova.js"></script>
         <script type="text/javascript" src="js/promotion.js"></script>
-<!--        <script type="text/javascript" src="js/webRequest.js"></script>-->
-<!--        <script type="text/javascript" src="js/common.js"></script>-->
+        <script type="text/javascript" src="js/webRequest.js"></script>
+        <script type="text/javascript" src="js/common.js"></script>
         <link rel="stylesheet" type="text/css" href="css/common.css" />
         <link rel="stylesheet" type="text/css" href="css/promotion.css" />
         <script type="text/javascript">
@@ -53,7 +53,11 @@
             <div class="promoHeaderDiv">                
                 <div class="imageDiv">
                     <span class="merchantName">MOVEMENT ULTIMATE CLUB</span>                
-                    <img class="merchantImage" src="img/event1.png" />
+                    <img class="merchantImage" src="" />
+                    <script type="text/javascript">
+                        var merchantPhoto=getUrlParameter("photo");
+                        $(".merchantImage").attr("src", merchantPhoto);
+                    </script>
                 </div>
             </div>
             <div class="subheader">
@@ -81,7 +85,8 @@
                 <div class="pageone">
                     <div class="wrapper" id="wrapper">
                         <div class="scroll-content" id="scroll-content">
-                            <ul class="scrollul" id="scrollul">
+                            <ul class="scrollul" id="scrollulPromotion">
+<!--
                                 <li>
                                     <div class="promoDiv">
                                         <img class="promoImageSeperator" src="img/eventSeperator.png" />
@@ -109,6 +114,7 @@
                                         <button class="btnFb"><img src="img/fbshare.png" /></button>
                                     </div>
                                 </li>
+-->
                             </ul>
                             <br>
                         </div>
@@ -149,7 +155,8 @@
                     <div class="wrapper" id="wrapper">
                         <div class="scroll-content" id="scroll-content">
                             <br><br>
-                            <ul class="scrollul" id="scrollul">
+                            <ul class="scrollul" id="scrollulFbGallery">
+<!--
                                 <li>
                                     <div class="gallery1Div"><img class="gallery1" src="img/fblogin.png"/></div>
                                     <div class="gallery2Div"><img class="gallery2" src="img/addFollow.png"/></div>
@@ -165,6 +172,7 @@
                                     <div class="gallery2Div"><img class="gallery2" src="img/addFollow.png"/></div>
                                     <div class="gallery3Div"><img class="gallery3" src="img/event1.png"/></div>
                                 </li>
+-->
                             </ul>
                             <br>
                         </div>
@@ -183,22 +191,17 @@
         </script>
         <script type="text/javascript">
             app.initialize();
-            $(document).ready(function(){
-                if (navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|IEMobile)/)) {
-                    
-                    var newTopMargin=$(".menuheader").height()+$(".merchantImage").height();
-                    $(".subheader").css("top", newTopMargin);  
-                    $(".subheader").show();
-                    
-                    var newContentTopMargin=newTopMargin+$(".subheader").height();
-                    var newContentHeight=document.documentElement.clientHeight-newContentTopMargin;
+            
+            $(".merchantImage").load(function(){
                         
-                    $(".content").css("top", newContentTopMargin);  
-                    $(".content").css("height", newContentHeight);   
-                    
-                } else {
-                    $(".merchantImage").load(function(){
-                        var newTopMargin=$(".menuheader").height()+$(this).height();
+                        var imageHeight=$(this).height();
+                        
+                        if(imageHeight>document.documentElement.clientHeight*0.35){
+                            imageHeight=document.documentElement.clientHeight*0.35;
+                            $(".merchantImage").css("height", imageHeight);
+                        }
+                        
+                        var newTopMargin=$(".menuheader").height()+imageHeight;
                         $(".subheader").css("top", newTopMargin);  
                         $(".subheader").show();
                         
@@ -207,11 +210,14 @@
                         
                         $(".content").css("top", newContentTopMargin);  
                         $(".content").css("height", newContentHeight);   
-                    });
-                }
-                
+            });
+            
+            $(document).ready(function(){
                 var newImageHeight=document.documentElement.clientWidth*0.26;
                 $(".pagethree li").css("height", newImageHeight);
+                
+                initPromoList();
+                getFbAlbumList();
             });
             
             

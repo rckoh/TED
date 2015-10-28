@@ -1,8 +1,8 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.pssb.TED" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
-    <name>Hello World</name>
+<widget id="com.pssb.myTed" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
+    <name>myTed</name>
     <description>
-        Hello World sample application that responds to the deviceready event.
+        The Entertainment Directory
     </description>
     <author email="support@projeksistematik.com.my" href="http://projeksistematik.com.my">
         Projeksistematik Mobile Development Team
@@ -48,6 +48,10 @@
     <gap:plugin name="cordova-plugin-splashscreen" source="npm"/>
     <gap:plugin name="cordova-plugin-vibration" source="npm"/>
     <gap:plugin name="com.phonegap.plugin.statusbar" />
+    <gap:plugin name="com.phonegap.plugins.facebookconnect" version="0.9.0">
+        <param name="APP_ID" value="521613448006826 " />
+        <param name="APP_NAME" value="myTed" />
+    </gap:plugin>
     <icon src="icon.png" />
     <icon gap:platform="android" gap:qualifier="ldpi" src="www/res/icon/android/icon-36-ldpi.png" />
     <icon gap:platform="android" gap:qualifier="mdpi" src="www/res/icon/android/icon-48-mdpi.png" />

@@ -57,6 +57,10 @@ function pageSwipeLeft(){
     }
 }
 
-function goPromoPage(){
-    window.location="promotion.html";
+function goPromoPage(mid, photo){
+    window.location="promotion.html?mID="+mid+"&photo="+photo;
+}
+
+function initMerchantList(){
+    getMerchantList();
 }

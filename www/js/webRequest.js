@@ -1,15 +1,15 @@
 var webUrl = "http://cloud.projeksistematik.com.my/MOBILE_REWARDS_APP/sch/searchdata.aspx";
 var apiTimeout=20000;
 var sha1Key="8809377";
+var fbPhotoList=[];
 
-
-function postLogin(){
+function postLogin(username, pwd){
 
     var strName="ProfileStr";
     var ProfileStr = {};
     ProfileStr["commandFlag"] = "9";
-    ProfileStr["Phone"] = "0177028082";
-    ProfileStr["Password"] = "123456";
+    ProfileStr["Phone"] = username;
+    ProfileStr["Password"] = pwd;
     ProfileStr["ID"] = "Thisistestingimei";
     
     var jsonString=JSON.stringify(ProfileStr);
@@ -31,18 +31,223 @@ function postLogin(){
         
           var returnStr=JSON.stringify(data);
           
-//          alert(data);
+          window.location="home.html";
       },
       error:function (xhr, ajaxOptions, thrownError){
         debugger;
           
-          alert("f: "+xhr.responseText);
+          alert("Fail connect to server");
           
         }
     })
 }
 
+function getMerchantList(){
+    var strName="EntityStr";
+    var jsonObject = {};
+    jsonObject["commandFlag"] = "0";
+    jsonObject["EntityID"] = "";
+    jsonObject["EntityName"] = "";
+    jsonObject["EntityPhoto"] = "";
+    jsonObject["EntityPoint"] = "";
+    jsonObject["IC"] = "";
+    jsonObject["Imei"] = "";
+    
+    var jsonString=JSON.stringify(jsonObject);
+    var hashedStr=SHA1(jsonString+sha1Key);
+    var postString=strName+"="+jsonString+"|||"+hashedStr;
 
+    
+    $.ajax({
+      url: webUrl,
+      type: "POST",
+      data:postString,
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+        "Content-Length": postString.length,
+      },
+      timeout: apiTimeout,    
+      success: function(data, status, xhr) {
+        debugger;        
+        
+          var returnStr=data.split("|||");
+          var newJsonObj=$.parseJSON(returnStr[0]);
+          
+          for(var x=0; x<newJsonObj.length; x++){
+            var mID='"'+ newJsonObj[x].EntityID + '"';
+            var photo='"'+ newJsonObj[x].EntityPhoto + '"';
+              
+            $(".scrollul").append("<li><div class='merchantDiv'><img class='merchantImageSeperator' src='img/eventSeperator.png' /><img class='merchantImage' src='"+newJsonObj[x].EntityPhoto+"' onclick='goPromoPage("+mID+","+photo+");'/><span class='merchantName'>"+newJsonObj[x].EntityName+"</span><span class='merchantFollower'>100 Followers</span><span class='merchantFollow'><img src='img/addFollow.png'/>Following</span></div></li>");
+          }
+      },
+      error:function (xhr, ajaxOptions, thrownError){
+        debugger;
+          
+          alert("Fail connect to server");
+          
+        }
+    })
+}
+
+function getMerchantPromoList(mID){
+    
+    var strName="PromotionStr";
+    var jsonObject = {};
+    jsonObject["commandFlag"] = "0";
+    jsonObject["PromoBusinessEntity"] = mID;
+    jsonObject["PromotionCategory"] = "";
+    jsonObject["PromotionDescription"] = "";
+    jsonObject["PromotionEndDate"] = "";
+    jsonObject["PromotionHighLight"] = "";
+    jsonObject["PromoID"] = "";
+    jsonObject["PromoMerchant"] = "";
+    jsonObject["PromoPhoto"] = "";
+    jsonObject["PromoStartDate"] = "";
+    jsonObject["PromoState"] = "";
+    jsonObject["PromoTC"] = "";
+    jsonObject["PromoTitle"] = "";
+    
+    var jsonString=JSON.stringify(jsonObject);
+    var hashedStr=SHA1(jsonString+sha1Key);
+    var postString=strName+"="+jsonString+"|||"+hashedStr;
+
+    
+    $.ajax({
+      url: webUrl,
+      type: "POST",
+      data:postString,
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+        "Content-Length": postString.length,
+      },
+      timeout: apiTimeout,    
+      success: function(data, status, xhr) {
+        debugger;        
+        
+          var returnStr=data.split("|||");
+          var newJsonObj=$.parseJSON(returnStr[0]);
+//          alert(returnStr);
+          
+          for(var x=0; x<newJsonObj.length; x++){  
+            var date=newJsonObj[x].start
+            $("#scrollulPromotion").append("<li><div class='promoDiv'><img class='promoImageSeperator' src='img/eventSeperator.png' /><img class='promoImage' src='"+newJsonObj[x].PromoPhoto+"'/><span class='promoName'>"+newJsonObj[x].PromoTitle+"</span><br><span class='promoDate'>3rd April 2016</span><button class='btnFb'><img src='img/fbshare.png' /></button></div></li>");
+          }
+          
+          if(newJsonObj.length==0){
+              $("#scrollulPromotion").append("<li><div class='promoDiv'><br>&nbsp;&nbsp;No result found</div></li>");
+          }
+      },
+      error:function (xhr, ajaxOptions, thrownError){
+        debugger;
+          
+          alert("Fail connect to server");
+          
+        }
+    })
+}
+
+function getFbAlbumList(){
+    fbPhotoList=[];
+    var fbId="honglingg";
+    var accessToken='CAACEdEose0cBAGIMgrzBpVQxPDsvmWB4k4T7YE6ZCOUHeRZA1xGfG4GpeZAuMh2xUunwEFCXV7pglCyTZAZAVKbwl6egg1JiXXyvZABQxK4jzwj75tUl57QFTAqvFQZBrjfEE0y44zsb79ZAnSLVVqsvoudOFpDBNZCNwuyxwZApAIohJsiiUAaCXDFRstvjfb5E3mIOEdV3F8egZDZD';
+    
+    var fbUrl="https://graph.facebook.com/";
+    var getAlbumListUrl=fbUrl+fbId+"/albums?access_token="+accessToken;
+    
+    $.ajax({
+      url: getAlbumListUrl,
+      type: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      timeout: apiTimeout,    
+      success: function(data, status, xhr) {
+        debugger;        
+        
+          var returnStr=JSON.stringify(data);
+          var newJsonObj=$.parseJSON(returnStr);
+          var defs=[];
+          for(var x=0; x<newJsonObj.data.length;x++){
+            defs.push(getFbPhotoList(newJsonObj.data[x].id));
+          } 
+          
+          $.when.apply(null, defs).done(function() {
+            loadGallery();
+          });
+      },
+      error:function (xhr, ajaxOptions, thrownError){
+        debugger;
+          
+          alert("Fail connect to server a" + xhr.responseText); 
+        }
+    })
+
+}
+
+function getFbPhotoList(albumid){
+    var accessToken='CAACEdEose0cBAGIMgrzBpVQxPDsvmWB4k4T7YE6ZCOUHeRZA1xGfG4GpeZAuMh2xUunwEFCXV7pglCyTZAZAVKbwl6egg1JiXXyvZABQxK4jzwj75tUl57QFTAqvFQZBrjfEE0y44zsb79ZAnSLVVqsvoudOFpDBNZCNwuyxwZApAIohJsiiUAaCXDFRstvjfb5E3mIOEdV3F8egZDZD';
+    
+    var fbUrl="https://graph.facebook.com/";
+    var getPhotoListUrl=fbUrl+albumid+"/photos?limit=150&access_token="+accessToken;
+    
+    var nestedajaxcall=$.ajax({
+      url: getPhotoListUrl,
+      type: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      timeout: apiTimeout,    
+      success: function(data, status, xhr) {
+        debugger;        
+        
+          var returnStr=JSON.stringify(data);
+          var newJsonObj=$.parseJSON(returnStr);
+          
+          for(var x=0; x<newJsonObj.data.length; x++){
+             var fbPictureUrl=fbUrl+newJsonObj.data[x].id+"/picture";
+             fbPhotoList.push(fbPictureUrl);
+          }
+      },
+      error:function (xhr, ajaxOptions, thrownError){
+        debugger;
+          
+          alert("Fail connect to server b"); 
+        }
+    })
+
+    return nestedajaxcall;
+}
+
+
+function loadGallery(){
+    var total=fbPhotoList.length;
+    var modno=total%3;
+    var linenumber=Math.floor(total/3);
+    
+    if(modno>0)
+        linenumber=linenumber+1;
+    
+    for(var x=0; x<linenumber; x++){
+        if(x==linenumber-1){
+            if(modno==0){
+                $("#scrollulFbGallery").append("<li><div class='gallery1Div'><img class='gallery1' src='"+fbPhotoList[x*3]+"'/></div><div class='gallery2Div'><img class='gallery2' src='"+fbPhotoList[x*3+1]+"'/></div><div class='gallery3Div'><img class='gallery3' src='"+fbPhotoList[x*3+2]+"'/></div></li>");
+            }
+            else if(modno==1){
+                $("#scrollulFbGallery").append("<li><div class='gallery1Div'><img class='gallery1' src='"+fbPhotoList[x*3]+"'/></div><div class='gallery2Div'><img class='gallery2' src=''/></div><div class='gallery3Div'><img class='gallery3' src=''/></div></li>");
+            }
+            else if(modno==1){
+                $("#scrollulFbGallery").append("<li><div class='gallery1Div'><img class='gallery1' src='"+fbPhotoList[x*3]+"'/></div><div class='gallery2Div'><img class='gallery2' src='"+fbPhotoList[x*3+1]+"'/></div><div class='gallery3Div'><img class='gallery3' src=''/></div></li>");
+            }
+        }
+        else{
+            $("#scrollulFbGallery").append("<li><div class='gallery1Div'><img class='gallery1' src='"+fbPhotoList[x*3]+"'/></div><div class='gallery2Div'><img class='gallery2' src='"+fbPhotoList[x*3+1]+"'/></div><div class='gallery3Div'><img class='gallery3' src='"+fbPhotoList[x*3+2]+"'/></div></li>");
+        }
+    }
+}
+//------------------------------------------------------------
+//------------------------------------------------------------
+//------------------------------------------------------------
+// Sha1 encryption //
 function SHA1(msg) {
   function rotate_left(n,s) {
     var t4 = ( n<<s ) | (n>>>(32-s));

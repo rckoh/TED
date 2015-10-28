@@ -47,3 +47,15 @@ var app = {
         console.log('Received Event: ' + id);
     }
 };
+
+function login(){
+    var username=$("#username").val();
+    var pwd=$("#pwd").val();
+    
+    if(username.length==0)
+        alert("Please enter username");
+    else if(pwd.length==0)
+        alert("Please enter pwd");
+    else   
+        postLogin(username, pwd);
+}
