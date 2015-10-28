@@ -74,11 +74,6 @@
             
             function fbLogin(){
                 var permission=["public_profile"];
-                facebookConnectPlugin.login(permission, 
-                                            fbLoginSuccess, 
-                                            function (error) { alert("" + error)}
-                );
-                
                 var fbLoginSuccess = function (userData) {
                     alert("as");
                     alert("UserInfo: " + JSON.stringify(userData));
@@ -88,6 +83,11 @@
                         alert("Could not get access token: " + err);
                     });
                 }
+                
+                facebookConnectPlugin.login(permission, 
+                                            fbLoginSuccess, 
+                                            function (error) { alert("" + error)}
+                );
             }
         </script>
     </body>
