@@ -149,7 +149,7 @@ function getMerchantPromoList(mID){
 function getFbAlbumList(){
     fbPhotoList=[];
     var fbId="honglingg";
-    var accessToken='CAACEdEose0cBAGIMgrzBpVQxPDsvmWB4k4T7YE6ZCOUHeRZA1xGfG4GpeZAuMh2xUunwEFCXV7pglCyTZAZAVKbwl6egg1JiXXyvZABQxK4jzwj75tUl57QFTAqvFQZBrjfEE0y44zsb79ZAnSLVVqsvoudOFpDBNZCNwuyxwZApAIohJsiiUAaCXDFRstvjfb5E3mIOEdV3F8egZDZD';
+    var accessToken='521613448006826|121e97ebec02027ad471542a599f351e';
     
     var fbUrl="https://graph.facebook.com/";
     var getAlbumListUrl=fbUrl+fbId+"/albums?access_token="+accessToken;
@@ -185,7 +185,7 @@ function getFbAlbumList(){
 }
 
 function getFbPhotoList(albumid){
-    var accessToken='CAACEdEose0cBAGIMgrzBpVQxPDsvmWB4k4T7YE6ZCOUHeRZA1xGfG4GpeZAuMh2xUunwEFCXV7pglCyTZAZAVKbwl6egg1JiXXyvZABQxK4jzwj75tUl57QFTAqvFQZBrjfEE0y44zsb79ZAnSLVVqsvoudOFpDBNZCNwuyxwZApAIohJsiiUAaCXDFRstvjfb5E3mIOEdV3F8egZDZD';
+    var accessToken='521613448006826|121e97ebec02027ad471542a599f351e';
     
     var fbUrl="https://graph.facebook.com/";
     var getPhotoListUrl=fbUrl+albumid+"/photos?limit=150&access_token="+accessToken;

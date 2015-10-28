@@ -7,7 +7,7 @@ var slideMenu = {
     initSlideMenu: function(){
         $("#slidemenu").append("<li onclick='aboutUsOnClick();'><div class='itemlabel'>About Us</div></li>");
         $("#slidemenu").append("<li><div class='itemlabel'>Forgot Password</div></li>");
-        $("#slidemenu").append("<li><div class='itemlabel'>Logout</div></li>");
+        $("#slidemenu").append("<li onclick='logoutOnClick();'><div class='itemlabel'>Logout</div></li>");
     },    
 }
 
@@ -99,6 +99,9 @@ function closeAboutUs(){
     $(".aboutUsBg").remove();
 }
 
+function logoutOnClick(){
+    window.location="index.html";
+}
 
 //----------------------------------------------------------
 //----------------------------------------------------------
