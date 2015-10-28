@@ -59,3 +59,21 @@ function login(){
     else   
         postLogin(username, pwd);
 }
+
+function fbLogin(){
+    var permission=["public_profile"];
+    var fbLoginSuccess = function (userData) {
+//                    alert("UserInfo: " + JSON.stringify(userData));
+//                    facebookConnectPlugin.getAccessToken(function(token) {
+//                        alert("Token: " + token);
+//                    }, function(err) {
+//                        alert("Could not get access token: " + err);
+//                    });
+        window.location="home.html";
+    }
+                
+    facebookConnectPlugin.login(permission, 
+                                fbLoginSuccess, 
+                                function (error) { alert("" + error)}
+                               );
+}
