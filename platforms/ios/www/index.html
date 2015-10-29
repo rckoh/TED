@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="msapplication-tap-highlight" content="no" />
+        <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, minimum-scale=1, width=device-width, target-densitydpi=medium-dpi" />
+<!--        <link rel="stylesheet" href="js/jquery-mobile/jquery.mobile-1.4.5.css"/>-->
+        <title>Home Page</title>
+        <script type="text/javascript" src="cordova.js"></script>
+        <script type="text/javascript" src="js/jquery-mobile/jquery-1.11.3.min.js"></script>
+        <script type="text/javascript" src="js/jquery-mobile/jquery.mobile-1.4.5.js"></script>
+        <script type="text/javascript" src="js/index.js"></script>
+        <script type="text/javascript" src="js/webRequest.js"></script>
+        <script type="text/javascript" src="js/common.js"></script>
+        <link rel="stylesheet" type="text/css" href="css/common.css" />
+        <link rel="stylesheet" type="text/css" href="css/index.css" />
+        <script type="text/javascript">
+            $(document).bind('mobileinit',function(){
+                $.mobile.loadingMessage = false;
+            })
+        </script>  
+        <script type="text/javascript">
+            document.addEventListener("deviceready", onDeviceReady, false);
+            
+            function onDeviceReady() {
+//                var marginleft=$(".app").width()/2-$(".appLogo").width()/2;
+//                $(".appLogo").css("margin-left", marginleft);
+//                  $(".appLogo").show();
+            }
+            
+        </script>
+    </head>
+    <body>
+        <div data-role="app" class="app" id="app">
+            <div class="content">
+                <div class="appLogoFrame">
+                    <img class="appLogo" src="img/logo.png"/>
+                </div>
+                <div class="loginDetails">
+                    <input class="loginTextBox" placeholder="USER NAME" type="text" maxlength="15" id="username"></input>
+                    
+                    <input class="pwdTextBox" placeholder="PASSWORD" type="password" maxlength="15" id="pwd"></input>
+                    
+                    <button class="btnLogin" onclick="login();">Login</button>
+                    
+                    <button class="btnLoginFB" onclick="fbLogin();"><img src="img/fblogin.png"/></button>
+                    
+                    <button class="btnForgetPassword" onclick=""><u>FORGOT PASSWORD</u></button>
+                </div>  
+            </div>
+            <div class="signUpFrame">
+                <label class="signupmsg">Do not have a TED account yet?</label>
+                <button class="btnSignup">Sign Up Now</button>
+            </div>
+            <div class='forgetPwdFrame'>
+                <div class='forgetPwdDiv'>
+                    <label class='forgetPwdLbl'>Forget Password</label>
+                    <label class='forgetPwdDetailLbl'>Enter username or email address. An new password will be send to your mailbox.</label>
+                    <input class='keyTxt' type='text'></input>
+                    <button class='btnForgetPwdClose' onclick='forgetPwdOnClick();'>Close</button>
+                    <button class='btnForgetPwd' onclick='forgetPwd();'>Forget Password</button>
+                </div>
+            </div>
+        </div>
+        <script type="text/javascript">
+            app.initialize();
+            $(document).ready(function(){
+                var marginleft=$(".app").width()/2-$(".appLogo").width()/2;
+                $(".appLogo").css("margin-left", marginleft);
+                $(".appLogo").show();
+            });
+            
+        </script>
+    </body>
+</html>

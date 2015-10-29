@@ -1,0 +1,414 @@
+/* ------------------------------------------------------------------------------------*/
+/* ------------------------------------------------------------------------------------*/
+/* ------------------------------------------------------------------------------------*/
+/* content page Style */
+.content{
+    width: 100%;
+    height: 57%;
+    background-color: white;
+	position:absolute;
+	top:43%;
+    z-index 99; 
+}
+
+.pageone{
+    background-color: white;
+    width: 100%;
+    height: 100%;
+    padding: 0px 0px 0px 0px;
+    margin: 0px 0px 0px 0%;
+    display: inline-block;
+    position: absolute;
+    z-index: 3;
+/*    position: absolute;*/
+    
+    -webkit-transform: translate3d(0,0,0);
+        -moz-transform: translate3d(0,0,0);
+        -ms-transform: translate3d(0,0,0);
+        -o-transform: translate3d(0,0,0);
+        transform: translate3d(0,0,0);
+        -webkit-transition: transform 400ms ease;
+        -moz-transition: transform 400ms ease;
+        transition: transform 400ms ease;
+}
+
+.pagetwo{
+    background-color: white;
+    width: 100%;
+    height: 100%;
+    padding: 0px 0px 0px 0px;
+    margin: 0px 0px 0px 0%;
+    display: inline-block;
+    position: absolute;
+    z-index: 2;
+    display: none;
+/*    position: absolute;*/
+    
+    -webkit-transform: translate3d(0,0,0);
+        -moz-transform: translate3d(0,0,0);
+        -ms-transform: translate3d(0,0,0);
+        -o-transform: translate3d(0,0,0);
+        transform: translate3d(0,0,0);
+        -webkit-transition: transform 400ms ease;
+        -moz-transition: transform 400ms ease;
+        transition: transform 400ms ease;
+}
+
+.pagethree{
+    background-color: white;
+    width: 100%;
+    height: 100%;
+    padding: 0px 0px 0px 0px;
+    margin: 0px 0px 0px 0%;
+    display: inline-block;
+    position: absolute;
+    z-index: 1;
+    display: none;
+/*    position: absolute;*/
+    
+    -webkit-transform: translate3d(0,0,0);
+        -moz-transform: translate3d(0,0,0);
+        -ms-transform: translate3d(0,0,0);
+        -o-transform: translate3d(0,0,0);
+        transform: translate3d(0,0,0);
+        -webkit-transition: transform 400ms ease;
+        -moz-transition: transform 400ms ease;
+        transition: transform 400ms ease;
+}
+
+/* content page stry end*/
+/* ------------------------------------------------------------------------------------*/
+/* ------------------------------------------------------------------------------------*/
+/* ------------------------------------------------------------------------------------*/
+
+
+
+/* ------------------------------------------------------------------------------------*/
+/* ------------------------------------------------------------------------------------*/
+/* ------------------------------------------------------------------------------------*/
+/*promo header style*/
+.promoHeaderDiv{
+    position: absolute;
+    top:10%;
+    height: auto;
+    width:100%;
+    background-color: transparent;
+    z-index: 11;
+}
+
+.merchantImage{
+    width:auto;
+    height: 100%;
+    z-index: 4;
+    vertical-align:top;
+}
+
+.imageDiv{
+    position: absolute;
+    background-color: transparent;
+    width: 100%;
+}
+
+.merchantName{
+    position: absolute;
+    width: 100%;
+    height: 7vw;
+    color: white;
+    font-family: "times new roman";
+    font-size: 3vw;
+    z-index: 5;
+    background-color: rgba(0, 0, 0, 0.4);
+    bottom: 0;
+    right: 0;
+    line-height: 7vw;
+    text-indent: 5%;
+}
+
+
+/* ------------------------------------------------------------------------------------*/
+/* ------------------------------------------------------------------------------------*/
+/* ------------------------------------------------------------------------------------*/
+
+
+/* ------------------------------------------------------------------------------------*/
+/* ------------------------------------------------------------------------------------*/
+/* ------------------------------------------------------------------------------------*/
+/* subheader Style*/
+.subheader{
+	position: absolute;
+	top: 37%;
+    background-color:white;
+    text-align:justify;
+    color: white;
+    height: 6%;
+    width: 100%;
+    padding: 0px 0px 0px 0px;
+    margin: 0px 0px 0px 0px;
+    display: none;
+}
+
+.subBtn1{
+	width:31%;
+	position:absolute;
+	height:100%;
+}
+
+.subBtn2{
+	width:31%;
+	position:absolute;
+	height:100%;
+	left:34.5%;
+}
+
+.subBtn3{
+	width:31%;
+	position:absolute;
+	height:100%;
+	left:69%;
+}
+
+.subSeperator1{
+	width:3.5%;
+	position:absolute;
+	height:100%;
+	left:31%;
+	vertical-align:middle;
+}
+
+.subSeperator1 button{
+	position:absolute;
+	height:100%;
+	line-height:100%;
+	vertical-align:middle;
+}
+
+.subSeperator2 button{
+	width:3.5%;
+	position:absolute;
+	height:100%;
+	left:65.5%;
+}
+
+
+.subheaderbutton{
+    background-color: transparent;
+    border: none;
+    color: black;
+    width: 100%;
+    height: 100%;
+	line-height:100%;
+    font-family: "times new roman";
+    font-size: 3vw;
+    font-weight: bold;
+    padding: 0px 0px 0px 0px;
+    margin: 0px 0px 0px 0px;
+}
+
+
+.selectedItem{
+    position: absolute;
+    background-color: black;
+    width: 32.75%;
+    height: 3px;
+    z-index: 10;
+    /* top:12%; */
+/*    margin: 0px 0.5% 0px 0px;*/
+    padding: 0px 0px 0px 0px;
+    margin: 0px 0px 0px 0px;
+	bottom:0px;
+}
+
+/* subheader Style end*/
+/* ------------------------------------------------------------------------------------*/
+/* ------------------------------------------------------------------------------------*/
+/* ------------------------------------------------------------------------------------*/
+
+
+
+
+/* ------------------------------------------------------------------------------------*/
+/* ------------------------------------------------------------------------------------*/
+/* ------------------------------------------------------------------------------------*/
+/* listview Style Page 1*/
+.wrapper{
+    height: 100%;
+    width: 100%;
+    background-color: white;
+    position: absolute;
+    display: block;
+    padding: 0px 0px 0px 0px;
+    margin: 0px 0px 0px 0px;
+    bottom: 0%;
+    overflow:auto;
+}
+
+.scrollul{
+    list-style:none;
+    padding:0;
+    margin:0;
+    width:100%;
+    text-align:left;
+}
+ 
+.scrollli {
+    padding:0 10px;
+    height:auto;
+    border-bottom:1px solid #ccc;
+    border-top:1px solid #fff;
+/*    background-color:#fafafa;*/
+/*    font-size:2.4vw;*/
+    border-bottom: 1px dotted #333;  
+}
+
+.scrollli:hover {
+    background-color: white;
+}
+
+.scroll-content {
+    position:absolute; 
+    z-index:1;
+    width:100%;
+    padding:0;
+}
+
+.merchantImage{
+    height: auto;
+    width: 100%;
+}
+
+.merchantImageSeperator{
+    height: auto;
+    width: 100%;
+}
+
+.merchantName{
+    font-family: "times new roman";
+    font-size: 3vw;
+    margin: 0 0 0 5%;
+}
+
+.promoDiv{
+    position: relative;
+}
+
+
+.promoImage{
+    height: auto;
+    width: 100%;
+}
+
+.promoImageSeperator{
+    height: auto;
+    width: 100%;
+}
+
+.promoName{
+    font-family: "times new roman";
+    font-size: 3vw;
+    margin: 0 0 0 5%;
+    color: #5b5b5b;
+    width: 70%;
+}
+
+.promoDate{
+    font-family: "times new roman";
+    font-size: 3vw;
+    margin: 0 0 0 5%;
+    width: 70%;
+}
+.btnFb{
+    position: absolute;
+    height: auto;
+    width:35%;
+    margin-right: 5%;
+    bottom: 1vw;
+    right: 2%;
+    border: none;
+    outline: none;
+    background-color: transparent;
+    
+}
+
+.btnFb img{
+    height: auto;
+    width:100%;
+    height: 100%;
+        
+}
+
+.aboutus h1{
+    font-family: "times new roman";
+    font-size: 4vw;
+    margin: 0 5% 0 5%;
+}
+
+.aboutus p{
+    font-family: "times new roman";
+    font-size: 3vw;
+    color: #5b5b5b;
+    margin: 0 5% 0 5%;
+    text-align: justify;
+}
+
+.pagethree li{
+    position: relative;
+    height: 35vw;
+    background-color: transparent;
+}
+
+.gallery1Div{
+    position: absolute;
+    height: 80%;
+    width: 26%;
+    background-color: transparent;
+    top:10%;
+    left: 5.5%;
+}
+
+.gallery1{
+    background-color: transparent;
+/*    height: auto;*/
+    width: 100%;
+    max-height: 100%;
+/*    overflow: hidden;*/
+}
+
+.gallery2Div{
+    position: absolute;
+    height: 80%;
+    width: 26%;
+    background-color: transparent;
+    top:10%;
+    left: 37%;
+}
+
+.gallery2{
+    background-color: transparent;
+/*    height: auto;*/
+    width: 100%;
+    max-height: 100%;
+/*    overflow: hidden;*/
+}
+
+.gallery3Div{
+    position: absolute;
+    height: 80%;
+    width: 26%;
+    background-color: transparent;
+    top:10%;
+    left: 68.5%;
+}
+
+.gallery3{
+    background-color: transparent;
+/*    height: auto;*/
+    width: 100%;
+    max-height: 100%;
+/*    overflow: hidden;*/
+}
+/* listview Style Page 1 end*/
+/* ------------------------------------------------------------------------------------*/
+/* ------------------------------------------------------------------------------------*/
+/* ------------------------------------------------------------------------------------*/
+
+
