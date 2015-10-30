@@ -3,6 +3,11 @@ var apiTimeout=20000;
 var sha1Key="8809377";
 var fbPhotoList=[];
 
+
+//------------------------------------------------------------------------
+//------------------------------------------------------------------------
+//------------------------------------------------------------------------
+//login
 function postLogin(username, pwd){
 
     var strName="ProfileStr";
@@ -31,7 +36,12 @@ function postLogin(username, pwd){
         
           var returnStr=JSON.stringify(data);
           
-          window.location="home.html";
+          var returnStr=data.split("|||");
+          var newJsonObj=$.parseJSON(returnStr[0]);
+
+          storeProfile(newJsonObj.Name, newJsonObj.IC, newJsonObj.Email, newJsonObj.Phone, newJsonObj.Address1, newJsonObj.Address2, newJsonObj.PostCode, newJsonObj.City, newJsonObj.State);
+
+//          window.location="home.html";
       },
       error:function (xhr, ajaxOptions, thrownError){
         debugger;
@@ -41,6 +51,48 @@ function postLogin(username, pwd){
         }
     })
 }
+
+function storeProfile(name, ic, email, phone, address1, address2, postcode, city, statedesc) {
+    var db = window.openDatabase("Database", "1.0", "TED", 200000);
+    var profile = {
+    values1 : [name, ic, email, phone, address1, address2, postcode, city, statedesc]
+    };
+
+    insertProfile(profile);
+    
+    function insertProfile(profile) {
+        db.transaction(function(tx) {
+            tx.executeSql('DROP TABLE IF EXISTS PROFILE');
+            tx.executeSql('create table if not exists PROFILE(NAME TEXT, IC TEXT, EMAIL TEXT, PHONE TEXT, ADDRESS1 TEXT, ADDRESS2 TEXT, POST_CODE TEXT, CITY TEXT, STATE_DESC TEXT)');
+            tx.executeSql('DELETE FROM PROFILE');
+            tx.executeSql(
+                'INSERT INTO PROFILE(NAME, IC, EMAIL, PHONE, ADDRESS1, ADDRESS2, POST_CODE, CITY, STATE_DESC) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)', 
+                profile.values1,
+                successLogin,
+                errorLogin
+            );
+        });
+    }
+}
+
+function errorLogin(err){
+    alert('Login failed');
+//    navigator.notification.alert("Login failed.", function(){}, "myTed", "Ok");
+//    loading.endLoading();
+}
+
+function successLogin(){
+//    alert('insert success');
+//    loading.endLoading();
+    window.location="home.html";
+}
+
+
+//------------------------------------------------------------------------
+//------------------------------------------------------------------------
+//------------------------------------------------------------------------
+//get merchant list
+var entityIDHolder;
 
 function getMerchantList(){
     var strName="EntityStr";
@@ -57,7 +109,6 @@ function getMerchantList(){
     var hashedStr=SHA1(jsonString+sha1Key);
     var postString=strName+"="+jsonString+"|||"+hashedStr;
 
-    
     $.ajax({
       url: webUrl,
       type: "POST",
@@ -73,12 +124,21 @@ function getMerchantList(){
           var returnStr=data.split("|||");
           var newJsonObj=$.parseJSON(returnStr[0]);
           
+          db.transaction(function(tx) {
+            tx.executeSql('DROP TABLE IF EXISTS Merchant');
+            tx.executeSql('create table if not exists Merchant(ENTITYID TEXT, NAME TEXT, PHOTO TEXT)');
+            tx.executeSql('DELETE FROM Merchant');
+          });
+          
           for(var x=0; x<newJsonObj.length; x++){
             var mID='"'+ newJsonObj[x].EntityID + '"';
             var photo='"'+ newJsonObj[x].EntityPhoto + '"';
-              
-            $(".scrollul").append("<li><div class='merchantDiv'><img class='merchantImageSeperator' src='img/eventSeperator.png' /><img class='merchantImage' src='"+newJsonObj[x].EntityPhoto+"' onclick='goPromoPage("+mID+","+photo+");'/><span class='merchantName'>"+newJsonObj[x].EntityName+"</span><span class='merchantFollower'>100 Followers</span><span class='merchantFollow'><img src='img/addFollow.png'/>Following</span></div></li>");
+            var ENTITYID=newJsonObj[x].EntityID;
+            
+            storeMerchant(newJsonObj[x]);
           }
+          
+          loadMerchantList();
       },
       error:function (xhr, ajaxOptions, thrownError){
         debugger;
@@ -89,6 +149,144 @@ function getMerchantList(){
     })
 }
 
+function storeMerchant(jsonObject) {
+    var merchant = {
+    values1 : [jsonObject.EntityID, jsonObject.EntityName, jsonObject.EntityPhoto]
+    };
+
+    insertMerchant(merchant);
+    
+    function insertMerchant(merchant) {
+        db.transaction(function(tx) {
+            tx.executeSql(
+                'INSERT INTO Merchant(ENTITYID, NAME, PHOTO) VALUES (?, ?, ?)', 
+                merchant.values1,
+                successStoreMerchant,
+                errorStoreMerchant
+            );
+        });
+    }
+}
+
+function errorStoreMerchant(err){
+
+}
+
+function successStoreMerchant(){
+
+}
+
+
+function loadMerchantList(){
+    db.transaction(function(tx){
+                tx.executeSql("SELECT * FROM Merchant a left join SubsMerchant b on a.ENTITYID=b.ENTITYID ORDER BY b.SUBSCRIBED desc, a.NAME", [], function(transaction, results){
+            
+            for(var x=0; x<results.rows.length; x++){
+                var mID='"'+ results.rows.item(x).ENTITYID + '"';
+                var photo='"'+ results.rows.item(x).PHOTO + '"';
+                
+                if(results.rows.item(x).SUBSCRIBED=="1"){
+                        $(".scrollul").append("<li id='merchantRow"+x+"'><div class='merchantDiv'><img class='merchantImageSeperator' src='img/eventSeperator.png' /><img class='merchantImage' src='"+results.rows.item(x).PHOTO+"' onclick='goPromoPage("+mID+","+photo+");'/><span class='merchantName'>"+results.rows.item(x).NAME+"</span><span class='merchantFollower'>100 Followers</span><span class='merchantFollow'><img src='img/unfollow.png'/>Followed</span></div></li>");
+                    }
+                    else{
+                        $(".scrollul").append("<li id='merchantRow"+x+"'><div class='merchantDiv'><img class='merchantImageSeperator' src='img/eventSeperator.png' /><img class='merchantImage' src='"+results.rows.item(x).PHOTO+"' onclick='goPromoPage("+mID+","+photo+");'/><span class='merchantName'>"+results.rows.item(x).NAME+"</span><span class='merchantFollower'>100 Followers</span><span class='merchantFollow'><img src='img/addFollow.png'/>Following</span></div></li>");
+                }
+            }       
+        }, failgetMetchantList);
+    });
+}
+
+function failgetMetchantList(){
+
+}
+//------------------------------------------------------------------------
+//------------------------------------------------------------------------
+//------------------------------------------------------------------------
+//get subscribed merchant list
+function getSubscribedMerchantList(){
+dbmanager.getProfile(function(returnData){
+    var strName="EntityStr";
+    var jsonObject = {};
+    
+    jsonObject["commandFlag"] = "3";
+    jsonObject["EntityID"] = "";
+    jsonObject["EntityName"] = "";
+    jsonObject["EntityPhoto"] = "";
+    jsonObject["EntityPoint"] = "";    
+    jsonObject["Imei"] = "";
+    jsonObject["IC"] = returnData.rows.item(0).IC; 
+    
+    
+    var jsonString=JSON.stringify(jsonObject);
+    var hashedStr=SHA1(jsonString+sha1Key);
+    var postString=strName+"="+jsonString+"|||"+hashedStr;
+
+    $.ajax({
+      url: webUrl,
+      type: "POST",
+      data:postString,
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+        "Content-Length": postString.length,
+      },
+      timeout: apiTimeout,    
+      success: function(data, status, xhr) {
+        debugger;        
+        
+          var returnStr=data.split("|||");
+          var newJsonObj=$.parseJSON(returnStr[0]);
+          var entityID=[];
+          
+          db.transaction(function(tx) {
+            tx.executeSql('DROP TABLE IF EXISTS SubsMerchant');
+            tx.executeSql('create table if not exists SubsMerchant(ENTITYID TEXT, SUBSCRIBED TEXT)');
+            tx.executeSql('DELETE FROM SubsMerchant');
+          });
+          for(var x=0; x<newJsonObj.length; x++){
+            storeSubscribedMerchant(newJsonObj[x].EntityID);
+          }
+          
+          getMerchantList();
+      },
+      error:function (xhr, ajaxOptions, thrownError){
+        debugger;
+          alert("Fail connect to server");
+        }
+    })
+});
+}
+
+function storeSubscribedMerchant(entityid) {
+    var merchant = {
+    values1 : [entityid, "1"]
+    };
+
+    insertMerchant(merchant);
+    
+    function insertMerchant(merchant) {
+        db.transaction(function(tx) {
+            tx.executeSql(
+                'INSERT INTO SubsMerchant(ENTITYID, SUBSCRIBED) VALUES (?, ?)', 
+                merchant.values1,
+                successStoreSubsmerchant,
+                errorStoreSubsMerchant
+            );
+        });
+    }
+}
+
+function errorStoreSubsMerchant(err){
+
+}
+
+function successStoreSubsmerchant(){
+
+}
+
+//------------------------------------------------------------------------
+//------------------------------------------------------------------------
+//------------------------------------------------------------------------
+//get promotion list
 function getMerchantPromoList(mID){
     
     var strName="PromotionStr";
@@ -146,6 +344,10 @@ function getMerchantPromoList(mID){
     })
 }
 
+//------------------------------------------------------------------------
+//------------------------------------------------------------------------
+//------------------------------------------------------------------------
+//getfacebook gallery album list
 function getFbAlbumList(){
     fbPhotoList=[];
     var fbId="honglingg";
@@ -184,6 +386,10 @@ function getFbAlbumList(){
 
 }
 
+//------------------------------------------------------------------------
+//------------------------------------------------------------------------
+//------------------------------------------------------------------------
+//get fb photos from albums
 function getFbPhotoList(albumid){
     var accessToken='521613448006826|121e97ebec02027ad471542a599f351e';
     
@@ -244,6 +450,7 @@ function loadGallery(){
         }
     }
 }
+
 //------------------------------------------------------------
 //------------------------------------------------------------
 //------------------------------------------------------------

@@ -32,17 +32,25 @@ var dbmanager = {
         db.transaction(createTableTransaction, this.errorExecuteSQL, this.successExecuteSQL);
         
         function createTableTransaction(t){
-            t.executeSql('CREATE TABLE IF NOT EXISTS userprofile (uid text, companyid text,name text, email text, profileImg text, role text, token text)');
+            t.executeSql('create table if not exists PROFILE(NAME TEXT, IC TEXT, EMAIL TEXT, PHONE TEXT, ADDRESS1 TEXT, ADDRESS2 TEXT, POST_CODE TEXT, CITY TEXT, STATE_DESC TEXT)');
         }
     },
     
     getProfile:function(returnData){
         db.transaction(function(tx){
-            tx.executeSql('SELECT * FROM userprofile', [], function(tx, rs){
+            tx.executeSql('SELECT * FROM PROFILE', [], function(tx, rs){
                 returnData(rs);
           }, this.errorExecuteSQL);
         });
     },
+    
+//    getFollowedMerchantWithID:function(returnData, entityid){
+//        db.transaction(function(tx){
+//            tx.executeSql("SELECT * FROM SubsMerchant where ENTITYID='"+entityid+"'", [], function(tx, rs){
+//                returnData(rs);
+//          }, this.errorExecuteSQL);
+//        });
+//    },
     
     successExecuteSQL:function(){
         //success to executeSQL
@@ -54,8 +62,6 @@ var dbmanager = {
         alert("fail"+err.message);
     },
 };
-
-
 
 //-----------------------------------------------------------------
 //-----------------------------------------------------------------

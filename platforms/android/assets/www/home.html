@@ -12,7 +12,7 @@
         <script type="text/javascript" src="js/home.js"></script>
         <script type="text/javascript" src="js/webRequest.js"></script>
         <script type="text/javascript" src="js/slidemenu.js"></script>
-<!--        <script type="text/javascript" src="js/common.js"></script>-->
+        <script type="text/javascript" src="js/common.js"></script>
         <link rel="stylesheet" type="text/css" href="css/common.css" />
         <link rel="stylesheet" type="text/css" href="css/home.css" />
         <link rel="stylesheet" type="text/css" href="css/slidemenu.css" />
@@ -137,6 +137,7 @@
         </script>
         <script type="text/javascript">
             app.initialize();
+            dbmanager.initdb();
             $(document).ready(function(){
                 if (navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|IEMobile)/)) {
                     var marginleft=$(".aboutUsContent").width()/2-$(this).width()/2;
@@ -150,7 +151,7 @@
                     });
                 }
                 slideMenu.initSlideMenu();
-                initMerchantList();
+                getSubscribedMerchantList();
             });
             
             
