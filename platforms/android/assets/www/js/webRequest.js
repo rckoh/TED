@@ -1,5 +1,5 @@
-//var webUrl = "http://cloud.projeksistematik.com.my/MOBILE_REWARDS_APP/sch/searchdata.aspx";
-var webUrl = "http://192.168.1.19/MOBILE_REWARDS_APP/sch/searchdata.aspx";
+var webUrl = "http://cloud.projeksistematik.com.my/MOBILE_REWARDS_APP/sch/searchdata.aspx";
+//var webUrl = "http://192.168.1.19/MOBILE_REWARDS_APP/sch/searchdata.aspx";
 var apiTimeout=20000;
 var sha1Key="8809377";
 var fbPhotoList=[];
