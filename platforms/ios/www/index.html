@@ -28,19 +28,11 @@
 //                var marginleft=$(".app").width()/2-$(".appLogo").width()/2;
 //                $(".appLogo").css("margin-left", marginleft);
 //                  $(".appLogo").show();
-                window.plugins.uniqueDeviceID.get(success, fail);
+                var uuidstring=device.uuid;
+                alert(uuidstring);
             
             }
             
-            function success(uuid)
-            {
-                alert(uuid);
-            };
-            
-            function fail(err)
-            {
-                alert(err);
-            };
             
         </script>
     </head>
