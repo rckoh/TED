@@ -1,4 +1,5 @@
-var webUrl = "http://cloud.projeksistematik.com.my/MOBILE_REWARDS_APP/sch/searchdata.aspx";
+//var webUrl = "http://cloud.projeksistematik.com.my/MOBILE_REWARDS_APP/sch/searchdata.aspx";
+var webUrl = "http://192.168.1.19/MOBILE_REWARDS_APP/sch/searchdata.aspx";
 var apiTimeout=20000;
 var sha1Key="8809377";
 var fbPhotoList=[];
@@ -179,17 +180,16 @@ function successStoreMerchant(){
 
 function loadMerchantList(){
     db.transaction(function(tx){
-                tx.executeSql("SELECT * FROM Merchant a left join SubsMerchant b on a.ENTITYID=b.ENTITYID ORDER BY b.SUBSCRIBED desc, a.NAME", [], function(transaction, results){
+                tx.executeSql("SELECT a.ENTITYID, a.NAME, a.PHOTO, b.SUBSCRIBED FROM Merchant a left join SubsMerchant b on a.ENTITYID=b.ENTITYID ORDER BY b.SUBSCRIBED desc, a.NAME", [], function(transaction, results){
             
             for(var x=0; x<results.rows.length; x++){
                 var mID='"'+ results.rows.item(x).ENTITYID + '"';
                 var photo='"'+ results.rows.item(x).PHOTO + '"';
-                
                 if(results.rows.item(x).SUBSCRIBED=="1"){
-                        $(".scrollul").append("<li id='merchantRow"+x+"'><div class='merchantDiv'><img class='merchantImageSeperator' src='img/eventSeperator.png' /><img class='merchantImage' src='"+results.rows.item(x).PHOTO+"' onclick='goPromoPage("+mID+","+photo+");'/><span class='merchantName'>"+results.rows.item(x).NAME+"</span><span class='merchantFollower'>100 Followers</span><span class='merchantFollow'><img src='img/unfollow.png'/>Followed</span></div></li>");
+                        $(".scrollul").append("<li id='merchantRow"+x+"'><div class='merchantDiv'><img class='merchantImageSeperator' src='img/eventSeperator.png' /><img class='merchantImage' src='"+results.rows.item(x).PHOTO+"' onclick='goPromoPage("+mID+","+photo+");'/><span class='merchantName'>"+results.rows.item(x).NAME+"</span><button class='merchantFollower'>100 Followers</button><button class='merchantFollow' id='unFollowBtn' onclick='postUnSubscribedMerchant("+x+", "+mID+");'><img src='img/unfollow.png'/>Followed</button></div></li>");
                     }
                     else{
-                        $(".scrollul").append("<li id='merchantRow"+x+"'><div class='merchantDiv'><img class='merchantImageSeperator' src='img/eventSeperator.png' /><img class='merchantImage' src='"+results.rows.item(x).PHOTO+"' onclick='goPromoPage("+mID+","+photo+");'/><span class='merchantName'>"+results.rows.item(x).NAME+"</span><span class='merchantFollower'>100 Followers</span><span class='merchantFollow'><img src='img/addFollow.png'/>Following</span></div></li>");
+                        $(".scrollul").append("<li id='merchantRow"+x+"'><div class='merchantDiv'><img class='merchantImageSeperator' src='img/eventSeperator.png' /><img class='merchantImage' src='"+results.rows.item(x).PHOTO+"' onclick='goPromoPage("+mID+","+photo+");'/><span class='merchantName'>"+results.rows.item(x).NAME+"</span><button class='merchantFollower'>100 Followers</button><button class='merchantFollow' id='followBtn' onclick='postSubscribedMerchant("+x+", "+mID+");'><img src='img/addFollow.png'/>Following</button></div></li>");
                 }
             }       
         }, failgetMetchantList);
@@ -282,6 +282,65 @@ function errorStoreSubsMerchant(err){
 function successStoreSubsmerchant(){
 
 }
+
+
+//------------------------------------------------------------------------
+//------------------------------------------------------------------------
+//------------------------------------------------------------------------
+//subscribe or unsubscribe merchant
+function postSubscribedMerchant(x, mID){
+//    $("#merchantRow"+x+" #followBtn").remove();
+//    $("#merchantRow"+x+" .merchantDiv").append("<button class='merchantFollow' id='unFollowBtn' onclick='postUnSubscribedMerchant("+x+", "+mID+");'><img src='img/unfollow.png'/>Followed</button>");
+//    $("#merchantRow"+x+" #unFollowBtn").click(function(){ postUnSubscribedMerchant(x, mID) });
+dbmanager.getProfile(function(returnData){
+    var strName="EntityStr";
+    var jsonObject = {};
+    
+    jsonObject["commandFlag"] = "4";
+    jsonObject["EntityID"] = mID;
+    jsonObject["EntityName"] = "";
+    jsonObject["EntityPhoto"] = "";
+    jsonObject["EntityPoint"] = "";    
+    jsonObject["Imei"] = "";
+    jsonObject["Status"] = "1";
+    jsonObject["IC"] = returnData.rows.item(0).IC; 
+    
+    var jsonString=JSON.stringify(jsonObject);
+    var hashedStr=SHA1(jsonString+sha1Key);
+    var postString=strName+"="+jsonString+"|||"+hashedStr;
+    alert(postString);
+    $.ajax({
+      url: webUrl,
+      type: "POST",
+      data:postString,
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+        "Content-Length": postString.length,
+      },
+      timeout: apiTimeout,    
+      success: function(data, status, xhr) {
+        debugger;        
+          alert(data);
+//          var returnStr=data.split("|||");
+//          var newJsonObj=$.parseJSON(returnStr[0]);
+          
+          alert(returnStr);
+      },
+      error:function (xhr, ajaxOptions, thrownError){
+        debugger;
+          alert("Fail connect to server");
+        }
+    })
+});
+}
+
+function postUnSubscribedMerchant(x, mID){
+//    $("#merchantRow"+x+" #unFollowBtn").remove();
+//    $("#merchantRow"+x+" .merchantDiv").append("<button class='merchantFollow' id='followBtn' onclick='postSubscribedMerchant("+x+", "+mID+");'><img src='img/addFollow.png'/>Following</button>");
+//    $("#merchantRow"+x+" #followBtn").click(function(){ postSubscribedMerchant(x, mID)});
+    
+}
+
 
 //------------------------------------------------------------------------
 //------------------------------------------------------------------------
