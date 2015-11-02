@@ -479,7 +479,7 @@ input:focus {
 .aboutUsCloseBtn{
     position: absolute;
     height: 100%;
-    width: 10%;
+    width: 15%;
     right: 0;
     border: none;
     outline: none;
@@ -551,6 +551,11 @@ input:focus {
     vertical-align: top;
 }
 
+
+.noresult{
+    font-size: 3vw;
+    font-family: "times new roman";
+}
 
 /* ------------------------------------------------------------------------------------*/
 /* ------------------------------------------------------------------------------------*/

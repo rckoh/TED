@@ -301,7 +301,7 @@ dbmanager.getProfile(function(returnData){
     jsonObject["EntityName"] = "";
     jsonObject["EntityPhoto"] = "";
     jsonObject["EntityPoint"] = "";    
-    jsonObject["Imei"] = "";
+    jsonObject["Imei"] = device.uuid;
     jsonObject["Status"] = "1";
     jsonObject["IC"] = returnData.rows.item(0).IC; 
     
@@ -391,7 +391,7 @@ function getMerchantPromoList(mID){
           }
           
           if(newJsonObj.length==0){
-              $("#scrollulPromotion").append("<li><div class='promoDiv'><br>&nbsp;&nbsp;No result found</div></li>");
+              $("#scrollulPromotion").append("<li><div class='promoDiv'><br><span class=noresult>&nbsp;&nbsp;No result found</span></div></li>");
           }
       },
       error:function (xhr, ajaxOptions, thrownError){
