@@ -503,7 +503,7 @@ function getMerchantPromoList(mID){
 //getfacebook gallery album list
 function getFbAlbumList(){
     fbPhotoList=[];
-    var fbId="amogood";
+    var fbId="movementultimate";
     var accessToken='521613448006826|121e97ebec02027ad471542a599f351e';
     
     var fbUrl="https://graph.facebook.com/";
