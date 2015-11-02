@@ -35,8 +35,24 @@
             });
             
             function onDeviceReady() {
-                
+                var div = document.getElementById("map_canvas");
+
+                  // Initialize the map view
+                map = plugin.google.maps.Map.getMap(div);
+
+                  // Wait until the map is ready status.
+                map.addEventListener(plugin.google.maps.event.MAP_READY, onMapReady);
             }
+            
+            function onMapReady() {
+              var button = document.getElementById("button");
+              button.addEventListener("click", onBtnClicked, false);
+            }
+
+            function onBtnClicked() {
+              map.showDialog();
+            }
+            
         </script>
     </head>
     <body id="pageBody">
@@ -126,6 +142,10 @@
                             <ul class="scrollul" id="scrollul">
                                 <li>
                                     <div class="aboutus">
+                                        <h3>PhoneGap-GoogleMaps-Plugin</h3>
+                                        <div style="width:100%;height:400px" id="map_canvas"></div>
+                                        <button id="button">Full Screen</button>
+<!--
                                         <img class="promoImageSeperator" src="img/aboutSeperator.png" />
                                         <br>
                                         <br>
@@ -144,6 +164,7 @@
                                         <p>
                                             016-1234567
                                         </p>
+-->
                                     </div>
                                 </li>
                             </ul>
