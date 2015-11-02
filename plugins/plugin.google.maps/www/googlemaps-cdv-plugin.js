@@ -1243,7 +1243,6 @@ Marker.prototype.remove = function(callback) {
   this.off();
 };
 Marker.prototype.setDisableAutoPan = function(disableAutoPan) {
-  disableAutoPan = parseBoolean(disableAutoPan);
   this.set('disableAutoPan', disableAutoPan);
   cordova.exec(null, this.errorHandler, PLUGIN_NAME, 'exec', ['Marker.setDisableAutoPan', this.getId(), disableAutoPan]);
 };
@@ -1251,22 +1250,11 @@ Marker.prototype.getParams = function () {
     return this.get('params');
 };
 Marker.prototype.setOpacity = function(opacity) {
-  if(!opacity) {
-    return false;
-  }
-  var m = opacity.match(/^\d{0,2}(?:\.\d{0,2}){0,1}$/);
-  if(!m) {
-    console.log('opacity value must be int or double');
-    return false;
-  }
   this.set('opacity', opacity);
   cordova.exec(null, this.errorHandler, PLUGIN_NAME, 'exec', ['Marker.setOpacity', this.getId(), opacity]);
 };
 Marker.prototype.setZIndex = function(zIndex) {
-  if(typeof zIndex === 'undefined') {
-    return false;
-  }
-  this.set('zIndex', zIndex);
+  this.set('zIndex', opacity);
   cordova.exec(null, this.errorHandler, PLUGIN_NAME, 'exec', ['Marker.setZIndex', this.getId(), zIndex]);
 };
 Marker.prototype.getOpacity = function() {
@@ -1300,15 +1288,10 @@ Marker.prototype.setIcon = function(url) {
   cordova.exec(null, this.errorHandler, PLUGIN_NAME, 'exec', ['Marker.setIcon', this.getId(), url]);
 };
 Marker.prototype.setTitle = function(title) {
-  if(!title) {
-    console.log('missing value for title');
-    return false;
-  }
   this.set('title', title);
   cordova.exec(null, this.errorHandler, PLUGIN_NAME, 'exec', ['Marker.setTitle', this.getId(), title]);
 };
 Marker.prototype.setVisible = function(visible) {
-  visible = parseBoolean(visible);
   this.set('visible', visible);
   cordova.exec(null, this.errorHandler, PLUGIN_NAME, 'exec', ['Marker.setVisible', this.getId(), visible]);
 };
@@ -1323,10 +1306,6 @@ Marker.prototype.getSnippet = function() {
   return this.get('snippet');
 };
 Marker.prototype.setRotation = function(rotation) {
-  if(!rotation) {
-    console.log('missing value for rotation');
-    return false;
-  }
   this.set('rotation', rotation);
   cordova.exec(null, this.errorHandler, PLUGIN_NAME, 'exec', ['Marker.setRotation', this.getId(), rotation]);
 };
@@ -1353,10 +1332,6 @@ Marker.prototype.isVisible = function() {
 };
 
 Marker.prototype.setPosition = function(position) {
-  if(!position) {
-    console.log('missing value for position');
-    return false;
-  }
   this.set('position', position);
   cordova.exec(null, this.errorHandler, PLUGIN_NAME, 'exec', ['Marker.setPosition', this.getId(), position.lat, position.lng]);
 };
