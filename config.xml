@@ -53,7 +53,7 @@
         <param name="APP_ID" value="521613448006826 " />
         <param name="APP_NAME" value="myTed" />
     </gap:plugin>
-    <gap:plugin name="plugin.google.maps" source="npm" version="1.3.4">
+    <gap:plugin name="plugin.google.maps" source="npm" version="1.2.4">
         <param name="API_KEY_FOR_ANDROID" value="AIzaSyCk7yv5Qf9XnMgnBJZlnb2k7LeDgNUDzLI" />
         <param name="API_KEY_FOR_IOS" value="AIzaSyBf2OLCjeKAkdNqOMYrk72kQOFIwybedFM" />
     </gap:plugin>
