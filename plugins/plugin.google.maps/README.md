@@ -1,45 +1,77 @@
-phonegap-googlemaps-plugin
+Cordova GoogleMaps plugin for iOS and Android
 ==========================
-This plugin helps you leverage [Google Maps Android SDK v2](https://developers.google.com/maps/documentation/android/) and [Google Maps SDK for iOS](https://developers.google.com/maps/documentation/ios/) with your JavaScript.
+This plugin is a thin wrapper for [Google Maps Android SDK v2](https://developers.google.com/maps/documentation/android/) and [Google Maps SDK for iOS](https://developers.google.com/maps/documentation/ios/).
 Both [PhoneGap](http://phonegap.com/) and [Apache Cordova](http://cordova.apache.org/) are supported.
 
+###Chat
+Join our online chat at<br> 
+[![Gitter](https://badges.gitter.im/cordova-plugin-googlemaps.svg)](https://gitter.im/nightstomp/cordova-plugin-googlemaps)
 
-![ScreenShot](https://googledrive.com/host/0B1ECfqTCcLE8ZVQ1djlWNThISEE/phonegap-googlemaps-plugin_small.png)
 
+###Donation
+Please consider to make a small donation. We spent many hours to make this a great plugin, we even pay other developers to contribute new functions. In order to keep up the motivation, we ask for your help, too. Thanks!
 
-###Example
-You can see an example here. [phonegap-googlemaps-plugin-v1.2.5.apk](https://googledrive.com/host/0B1ECfqTCcLE8TXlUQUJXMmJpNGs/phonegap-googlemaps-plugin-v1.2.5.apk)
+[Donate on Bountysource](https://www.bountysource.com/teams/cordova-plugin-googlemaps)
+
+[![img](https://www.paypalobjects.com/webstatic/en_US/btn/btn_donate_cc_147x47.png)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=LLCBVUA7TQ8SU)
+
+Before I release the clustering feature, I want to raise a funding of 1000$. I will donate some of the funded money to @limeuwe for donating the code and to my developer for the Android part.
+
+Currently funded: 10 $
+
+###Quick install
+
+**Plugin is finally available on npm**<br>
+Before you install, make sure you've read the [instructions](https://github.com/phonegap-googlemaps-plugin/cordova-plugin-googlemaps/wiki/Installation)
+
+*npm (current stable 1.3.4)*
 ```bash
-$> adb install phonegap-googlemaps-plugin-v1.2.5.apk
+$> cordova plugin add cordova-plugin-googlemaps --variable API_KEY_FOR_ANDROID="YOUR_ANDROID_API_KEY_IS_HERE" --variable API_KEY_FOR_IOS="YOUR_IOS_API_KEY_IS_HERE"
 ```
 
-![image](https://googledrive.com/host/0B1ECfqTCcLE8ZVQ1djlWNThISEE/example-v1.2.5.gif)
+*Github (current master, potentially unstable)*
+```bash
+$> cordova plugin add https://github.com/phonegap-googlemaps-plugin/cordova-plugin-googlemaps --variable API_KEY_FOR_ANDROID="YOUR_ANDROID_API_KEY_IS_HERE" --variable API_KEY_FOR_IOS="YOUR_IOS_API_KEY_IS_HERE"
+```
 
-### Join the official community
-New versions will be announced through the official community. Stay tuned!
+###Last release information
 
-<a href="https://plus.google.com/u/0/communities/117427728522929652853"><img src="https://googledrive.com/host/0B1ECfqTCcLE8Yng5OUZIY3djUzg/Red-signin_Google_base_44dp.png" height="40"></a>
+**v.1.3.4 - 15/10/2015**
 
-###What's up?
+- Updated Google Maps SDK for iOS to 1.10.4
+ - Will fix some bugs on iOS 9
 
-v1.2.5
-- Add : The `opacity` and `tileSize` properties has been added to `map.addTileOverlay()`
-- Add : Add marker animations: `DROP` and `BOUNCE`
-- Add : Add INDOOR_BUILDING_FOCUSED & INDOOR_LEVEL_ACTIVATED events for indoor map events.
-- Add plugin.google.maps.geometry.encoding.decodePath() & plugin.google.maps.geometry.encoding.encodePath()
-- Update : v1.2.5 uses Google Play Services version 23.
-- Added settings for watchdogtimer / complete rewrite of remote marker downloads
-- The `icon` property of the `map.addMarker()` accepts `file://` & `cdvfile://` protocol, and also the absolute file path.
-- Loading KML files from `file://` & `cdvfile://` protocol.
-- And many bugs are fixed.
+**v.1.3.3**
+
+**Added**
+
+- added zIndex (iOS only, not available for Android)
+ - [659](https://github.com/wf9a5m75/phonegap-googlemaps-plugin/issues/659)
+
+```js
+map.addMarker({
+    zIndex: int
+})
+// and
+marker.setZIndex()
+```
+
+**Fixed**
+- Status-Bar Shift-Down
+ - [657](https://github.com/wf9a5m75/phonegap-googlemaps-plugin/issues/657#issuecomment-146036169)
+- Temp Dom-not-updated fix
+ - [658](https://github.com/wf9a5m75/phonegap-googlemaps-plugin/issues/658)
+- Stabilized iOS loading
+ - [623](https://github.com/wf9a5m75/phonegap-googlemaps-plugin/issues/623)
+
 
 Check out the [release notes](https://github.com/wf9a5m75/phonegap-googlemaps-plugin/wiki/Release-Notes).
 
 ###Documentation
 
 * Introduction
-  * <a href="https://github.com/wf9a5m75/phonegap-googlemaps-plugin/wiki/How-different-are-the-JavaScript-APIs-%28web%29-and-the-mobile-SDKs-%28native%29">How different are the JavaScript APIs (web) and the mobile SDKs (native)</a>
-  * [Why use this plugin?](https://github.com/wf9a5m75/phonegap-googlemaps-plugin/wiki/Why-use-this-plugin%3F)
+  * <a href="https://github.com/wf9a5m75/phonegap-googlemaps-plugin/wiki/How-different-are-the-JavaScript-APIs-%28web%29-and-the-mobile-SDKs-%28native%29">Difference between JavaScript APIs (web) and the mobile SDKs (native)</a>
+  * [Why should I use this plugin?](https://github.com/wf9a5m75/phonegap-googlemaps-plugin/wiki/Why-use-this-plugin%3F)
   * [Java Objective C or JavaScript. Which one do you like?](https://github.com/wf9a5m75/phonegap-googlemaps-plugin/wiki/Java-Objective-C-or-JavaScript.-Which-one-do-you-like%3F)
 
 
@@ -49,9 +81,10 @@ Check out the [release notes](https://github.com/wf9a5m75/phonegap-googlemaps-pl
     * [Tutorial for Windows](https://github.com/wf9a5m75/phonegap-googlemaps-plugin/wiki/Tutorial-for-Windows)
     * [Tutorial for Mac/Linux](https://github.com/wf9a5m75/phonegap-googlemaps-plugin/wiki/Tutorial-for-Mac)
     * [PhoneGap Usage](https://github.com/wf9a5m75/phonegap-googlemaps-plugin/wiki/Phonegap-Usage)
+    * [Tutorial for Crosswalk](https://github.com/phonegap-googlemaps-plugin/cordova-plugin-googlemaps/wiki/Tutorial-for-CrossWalk-Webview-Plugin-%28Android%29)
     * [Tutorial for Monaca (Cloud building service)](https://github.com/wf9a5m75/phonegap-googlemaps-plugin/wiki/Tutorial-for-Monaca)
   * Upgrade
-    * [How to upgrade the Google Maps SDK for iOS to the latest version?](https://github.com/wf9a5m75/phonegap-googlemaps-plugin/wiki/How-to-upgrade-the-Google-Maps-SDK-for-iOS-to-the-latest-version%3F)
+    * Just re-install this plugin
 * [Terms of Services](https://github.com/wf9a5m75/phonegap-googlemaps-plugin/wiki/Terms-of-Services)
 * [Map](https://github.com/wf9a5m75/phonegap-googlemaps-plugin/wiki/Map)
   * ![img](https://raw.github.com/wf9a5m75/phonegap-googlemaps-plugin/Images/screencapture/animateCamera.gif)
@@ -132,13 +165,24 @@ Check out the [release notes](https://github.com/wf9a5m75/phonegap-googlemaps-pl
   * <img src="https://googledrive.com/host/0B1ECfqTCcLE8MU1CbUtNVUs3TEE/direction.gif" height="250">
   * Launch the navigation application
 
-
 -----
 
-##Do you want to use marker cluster?
+##Crosswalk
+If you want to use crosswalk (highly recommended), just follow this easy documentation. 
+[Install Plugin with Crosswalk](https://github.com/wf9a5m75/phonegap-googlemaps-plugin/wiki/Tutorial-for-CrossWalk-Webview-Plugin-%28Android%29)
 
-Marker clustering is the technique for grouping some markers based on bounds. This reduces the marker on the map, and reduce the memory usage.
 
-<img src="https://googledrive.com/host/0B1ECfqTCcLE8SHVUX25xcmNIUTQ/marker_cluster.png" width="250">
+### Join the official community
+New versions will be announced through the official community. Stay tuned!
 
-[![Bountysource](https://www.bountysource.com/badge/team?team_id=942&style=raised)](https://www.bountysource.com/teams/phonegap-googlemaps-plugin?utm_source=PhoneGap%20GoogleMaps%20Plugin&utm_medium=shield&utm_campaign=raised) / $500
+<a href="https://plus.google.com/u/0/communities/117427728522929652853"><img src="https://googledrive.com/host/0B1ECfqTCcLE8Yng5OUZIY3djUzg/Red-signin_Google_base_44dp.png" height="40"></a>
+
+
+###Example
+You can see an example here. [phonegap-googlemaps-plugin-v1.2.5.apk](https://googledrive.com/host/0B1ECfqTCcLE8TXlUQUJXMmJpNGs/phonegap-googlemaps-plugin-v1.2.5.apk)
+```bash
+$> adb install phonegap-googlemaps-plugin-v1.2.5.apk
+```
+
+![image](https://googledrive.com/host/0B1ECfqTCcLE8ZVQ1djlWNThISEE/example-v1.2.5.gif)
+

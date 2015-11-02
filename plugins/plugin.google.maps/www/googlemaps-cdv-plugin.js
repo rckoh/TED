@@ -59,22 +59,23 @@ var BaseClass = function() {
   
   self.off = function(eventName, callback) {
     var i;
-    if (typeof eventName === "string" &&
-        eventName in _listeners) {
+    if (typeof eventName === "string"){
+      if(eventName in _listeners) {
       
-      if (typeof callback === "function") {
-        for (i = 0; i < _listeners[eventName].length; i++) {
-          if (_listeners[eventName][i].callback === callback) {
-            document.removeEventListener(eventName, _listeners[eventName][i].listener);
-            _listeners[eventName].splice(i, 1);
-            break;
+        if (typeof callback === "function") {
+          for (i = 0; i < _listeners[eventName].length; i++) {
+            if (_listeners[eventName][i].callback === callback) {
+              document.removeEventListener(eventName, _listeners[eventName][i].listener);
+              _listeners[eventName].splice(i, 1);
+              break;
+            }
           }
+        } else {
+          for (i = 0; i < _listeners[eventName].length; i++) {
+            document.removeEventListener(eventName, _listeners[eventName][i].listener);
+          }
+          delete _listeners[eventName];
         }
-      } else {
-        for (i = 0; i < _listeners[eventName].length; i++) {
-          document.removeEventListener(eventName, _listeners[eventName][i].listener);
-        }
-        delete _listeners[eventName];
       }
     } else {
       //Remove all event listeners
@@ -886,6 +887,7 @@ App.prototype.addMarker = function(markerOptions, callback) {
   markerOptions.rotation = markerOptions.rotation || 0;
   markerOptions.opacity = parseFloat("" + markerOptions.opacity, 10) || 1;
   markerOptions.disableAutoPan = markerOptions.disableAutoPan === undefined ? false: markerOptions.disableAutoPan;
+  markerOptions.params = markerOptions.params || {};
   if ("styles" in markerOptions) {
     markerOptions.styles = typeof markerOptions.styles === "object" ? markerOptions.styles : {};
     
@@ -1241,12 +1243,31 @@ Marker.prototype.remove = function(callback) {
   this.off();
 };
 Marker.prototype.setDisableAutoPan = function(disableAutoPan) {
+  disableAutoPan = parseBoolean(disableAutoPan);
   this.set('disableAutoPan', disableAutoPan);
   cordova.exec(null, this.errorHandler, PLUGIN_NAME, 'exec', ['Marker.setDisableAutoPan', this.getId(), disableAutoPan]);
 };
+Marker.prototype.getParams = function () {
+    return this.get('params');
+};
 Marker.prototype.setOpacity = function(opacity) {
+  if(!opacity) {
+    return false;
+  }
+  var m = opacity.match(/^\d{0,2}(?:\.\d{0,2}){0,1}$/);
+  if(!m) {
+    console.log('opacity value must be int or double');
+    return false;
+  }
   this.set('opacity', opacity);
   cordova.exec(null, this.errorHandler, PLUGIN_NAME, 'exec', ['Marker.setOpacity', this.getId(), opacity]);
+};
+Marker.prototype.setZIndex = function(zIndex) {
+  if(typeof zIndex === 'undefined') {
+    return false;
+  }
+  this.set('zIndex', zIndex);
+  cordova.exec(null, this.errorHandler, PLUGIN_NAME, 'exec', ['Marker.setZIndex', this.getId(), zIndex]);
 };
 Marker.prototype.getOpacity = function() {
   return this.get('opacity');
@@ -1279,10 +1300,15 @@ Marker.prototype.setIcon = function(url) {
   cordova.exec(null, this.errorHandler, PLUGIN_NAME, 'exec', ['Marker.setIcon', this.getId(), url]);
 };
 Marker.prototype.setTitle = function(title) {
+  if(!title) {
+    console.log('missing value for title');
+    return false;
+  }
   this.set('title', title);
   cordova.exec(null, this.errorHandler, PLUGIN_NAME, 'exec', ['Marker.setTitle', this.getId(), title]);
 };
 Marker.prototype.setVisible = function(visible) {
+  visible = parseBoolean(visible);
   this.set('visible', visible);
   cordova.exec(null, this.errorHandler, PLUGIN_NAME, 'exec', ['Marker.setVisible', this.getId(), visible]);
 };
@@ -1297,6 +1323,10 @@ Marker.prototype.getSnippet = function() {
   return this.get('snippet');
 };
 Marker.prototype.setRotation = function(rotation) {
+  if(!rotation) {
+    console.log('missing value for rotation');
+    return false;
+  }
   this.set('rotation', rotation);
   cordova.exec(null, this.errorHandler, PLUGIN_NAME, 'exec', ['Marker.setRotation', this.getId(), rotation]);
 };
@@ -1323,6 +1353,10 @@ Marker.prototype.isVisible = function() {
 };
 
 Marker.prototype.setPosition = function(position) {
+  if(!position) {
+    console.log('missing value for position');
+    return false;
+  }
   this.set('position', position);
   cordova.exec(null, this.errorHandler, PLUGIN_NAME, 'exec', ['Marker.setPosition', this.getId(), position.lat, position.lng]);
 };
@@ -2469,7 +2503,7 @@ document.addEventListener("deviceready", function() {
   plugin.google.maps.Map.isAvailable();
 });
 
-const HTML_COLORS = {
+var HTML_COLORS = {
   "alideblue" : "#f0f8ff",
   "antiquewhite" : "#faebd7",
   "aqua" : "#00ffff",
