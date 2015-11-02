@@ -12,6 +12,7 @@
         <script type="text/javascript" src="js/promotion.js"></script>
         <script type="text/javascript" src="js/webRequest.js"></script>
         <script type="text/javascript" src="js/common.js"></script>
+        <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBdNCmY8P_u72FgpkdVqZ476PljKfbrhHs&sensor=false"></script>
         <link rel="stylesheet" type="text/css" href="css/common.css" />
         <link rel="stylesheet" type="text/css" href="css/promotion.css" />
         <script type="text/javascript">
@@ -35,23 +36,34 @@
             });
             
             function onDeviceReady() {
-                var div = document.getElementById("map_canvas");
-
-                  // Initialize the map view
-                map = plugin.google.maps.Map.getMap(div);
-
-                  // Wait until the map is ready status.
-                map.addEventListener(plugin.google.maps.event.MAP_READY, onMapReady);
+                
             }
-            
-            function onMapReady() {
-              var button = document.getElementById("button");
-              button.addEventListener("click", onBtnClicked, false);
-            }
-
-            function onBtnClicked() {
-              map.showDialog();
-            }
+//            navigator.geolocation.getCurrentPosition(onSuccess, onError);    
+//            function onSuccess(position){
+//                alert("onscuess");
+//                
+//                var longitude=103.802426;
+//                var latitude=1.536000;
+////                var longitude=position.coords.longitude;
+////                var latitude=position.coords.latitude;
+//                var latlong=new google.maps.LatLng(latitude, longitude);
+//                alert(latlong);
+//                
+//                
+//                var mapOptions={
+//                    center:latlong,
+//                    zoom:16,
+//                    mapTypeId: google.maps.MapTypeId.RoadMap
+//                };
+//                
+//                var map=new google.maps.Map(document.getElementById("geolocation"), mapOptions);
+//                
+//            }
+//            
+//            function onError(err){
+//                alert("onfail");
+//                alert("code:"+err.code + "\nmessage"+err.message);
+//            }
             
         </script>
     </head>
@@ -142,10 +154,7 @@
                             <ul class="scrollul" id="scrollul">
                                 <li>
                                     <div class="aboutus">
-                                        <h3>PhoneGap-GoogleMaps-Plugin</h3>
-                                        <div style="width:100%;height:400px" id="map_canvas"></div>
-                                        <button id="button">Full Screen</button>
-<!--
+                                        //<div id="geolocation"></div>
                                         <img class="promoImageSeperator" src="img/aboutSeperator.png" />
                                         <br>
                                         <br>
@@ -164,7 +173,6 @@
                                         <p>
                                             016-1234567
                                         </p>
--->
                                     </div>
                                 </li>
                             </ul>

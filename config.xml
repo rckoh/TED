@@ -8,7 +8,6 @@
         Projeksistematik Mobile Development Team
     </author>
     <content src="index.html" />
-    <preference name="android-build-tool" value="gradle" /> 
     <preference name="permissions" value="none" />
     <preference name="orientation" value="Potrait" />
     <preference name="target-device" value="universal" />
@@ -49,10 +48,6 @@
     <gap:plugin name="cordova-plugin-network-information" source="npm"/>
     <gap:plugin name="cordova-plugin-splashscreen" source="npm"/>
     <gap:plugin name="cordova-plugin-vibration" source="npm"/>
-    <gap:plugin name="cordova-plugin-googlemaps" source="npm">
-    <param name="API_KEY_FOR_ANDROID" value="AIzaSyCk7yv5Qf9XnMgnBJZlnb2k7LeDgNUDzLI" />
-    <param name="API_KEY_FOR_IOS" value="AIzaSyBf2OLCjeKAkdNqOMYrk72kQOFIwybedFM" />
-  </gap:plugin>
     <gap:plugin name="com.phonegap.plugin.statusbar" />
     <gap:plugin name="com.phonegap.plugins.facebookconnect" version="0.9.0">
         <param name="APP_ID" value="521613448006826 " />
