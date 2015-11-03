@@ -356,6 +356,14 @@
     background-color: transparent;
 }
 
+/*
+.pagetwo li{
+    position: relative;
+    height: 35vw;
+    background-color: green;
+}
+*/
+
 .gallery1Div{
     position: absolute;
     height: 80%;
@@ -407,10 +415,12 @@
 /*    overflow: hidden;*/
 }
 
-#geolocation{
-    width: 100%;
+.geolocationDiv{
     height: 300px;
-    background-color: green;
+    width: 100%;
+    z-index: 99;
+/*    position: absolute;*/
+/*    background-color: green;*/
 }
 /* listview Style Page 1 end*/
 /* ------------------------------------------------------------------------------------*/
