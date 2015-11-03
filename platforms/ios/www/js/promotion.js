@@ -87,7 +87,7 @@ function changepage(pagenumber){
         $(".selectedItem").animate({
                 marginLeft: "32.75%",}, 300, function() {$(".selectedItem").css("width", "34.5%");});
         
-        navigator.geolocation.getCurrentPosition(onSuccess, onError);    
+//        navigator.geolocation.getCurrentPosition(onSuccess, onError);    
         
     }
     
