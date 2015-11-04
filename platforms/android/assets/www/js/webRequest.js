@@ -11,6 +11,7 @@ var appV="1.0.0";
 //------------------------------------------------------------------------
 //post device info
 function postDeviceInfo(infoType, rid){
+    
     alert(rid);
     var webApiClass=webApiUrl+"api/device/new";
     var deviceId,deviceName, registrationId, imeiNo, appVersion,osVersion;
