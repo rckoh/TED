@@ -72,11 +72,11 @@
             app.initialize();
             dbmanager.initdb();
             $(document).ready(function(){
-                try{
-                    app.initPushNotificationRegister();
+                 try{
+                        app.initPushNotificationRegister();
                 }
-                catch(err){
-                    
+                catch(ex){
+                        alert(ex.message);
                 }
                 
                 dbmanager.getProfile(function(returnData){

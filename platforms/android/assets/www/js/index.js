@@ -86,7 +86,7 @@ var app = {
             break;
  
             case 'error':
-//              alert('GCM error = '+e.msg);
+              alert('GCM error = '+e.msg);
             break;
  
             default:
