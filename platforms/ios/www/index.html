@@ -27,6 +27,12 @@
             
             function onDeviceReady() {
                 document.addEventListener("backbutton", onBackKeyDown, false);
+                try{
+                        app.initPushNotificationRegister();
+                }
+                catch(ex){
+                        alert(ex.message);
+                }
             }
             
             function onBackKeyDown(e) {
@@ -72,13 +78,6 @@
             app.initialize();
             dbmanager.initdb();
             $(document).ready(function(){
-                 try{
-                        app.initPushNotificationRegister();
-                }
-                catch(ex){
-                        alert(ex.message);
-                }
-                
                 dbmanager.getProfile(function(returnData){
                     if(returnData.rows.length>0)
                     {
