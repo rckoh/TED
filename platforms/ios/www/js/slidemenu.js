@@ -106,8 +106,29 @@ function closeAboutUs(){
 }
 
 function logoutOnClick(){
+    deleteProfile();
+}
+
+function deleteProfile() {
+    var db = window.openDatabase("Database", "1.0", "ESLN", 200000);
+    db.transaction(runDeleteProfile, errorDeleteProfile, successDeleteProfile);
+}
+
+function runDeleteProfile(t){
+    t.executeSql('DELETE FROM PROFILE');
+}
+
+function errorDeleteProfile(err){
+    loading.endLoading();
+    navigator.notification.alert("Logout failed.", function(){}, "myTed", "Ok");
+}
+
+function successDeleteProfile(){
+    loading.endLoading();
+    navigator.notification.alert("Logout succesfully", function(){}, "myTed", "Ok");
     window.location="index.html";
 }
+
 
 //----------------------------------------------------------
 //----------------------------------------------------------

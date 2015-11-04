@@ -5,21 +5,11 @@
     },
     "config_munge": {
         "files": {
-            "framework": {
-                "parents": {
-                    "Security.framework": [
-                        {
-                            "xml": false,
-                            "count": 1
-                        }
-                    ]
-                }
-            },
             "config.xml": {
                 "parents": {
                     "/*": [
                         {
-                            "xml": "<feature name=\"UniqueDeviceID\"><param name=\"ios-package\" value=\"CDVUniqueDeviceID\" /><param name=\"onload\" value=\"true\" /></feature>",
+                            "xml": "<feature name=\"PushPlugin\"><param name=\"ios-package\" value=\"PushPlugin\" /></feature>",
                             "count": 1
                         }
                     ]
@@ -28,7 +18,7 @@
         }
     },
     "installed_plugins": {
-        "hu.dpal.phonegap.plugins.UniqueDeviceID": {
+        "com.phonegap.plugins.PushPlugin": {
             "PACKAGE_NAME": "com.pssb.myTed"
         }
     },

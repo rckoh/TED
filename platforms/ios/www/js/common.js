@@ -33,6 +33,7 @@ var dbmanager = {
         
         function createTableTransaction(t){
             t.executeSql('create table if not exists PROFILE(NAME TEXT, IC TEXT, EMAIL TEXT, PHONE TEXT, ADDRESS1 TEXT, ADDRESS2 TEXT, POST_CODE TEXT, CITY TEXT, STATE_DESC TEXT)');
+            t.executeSql('create table if not exists FIRSTRUN(RUN TEXT)');
         }
     },
     

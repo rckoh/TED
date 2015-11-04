@@ -42,6 +42,8 @@
 		2546C2AC41CE4C34A26DCECF /* UICKeyChainStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AFAE1EAA75E4265A80ED1E1 /* UICKeyChainStore.m */; };
 		56237E54AFB748E6A773C552 /* CDVUniqueDeviceID.m in Sources */ = {isa = PBXBuildFile; fileRef = A3BBF07E0DD34E179E9ABEF6 /* CDVUniqueDeviceID.m */; };
 		DDD6176B46014904B5F82554 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9B325DEA7593488184B5653F /* Security.framework */; };
+		F85C2FF19A0040C0B21AED1A /* AppDelegate+notification.m in Sources */ = {isa = PBXBuildFile; fileRef = 29280C5222C74F11B310F078 /* AppDelegate+notification.m */; };
+		3350F966DDB7494A8B625049 /* PushPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = E79E13AB6202481D83C20C6D /* PushPlugin.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -112,6 +114,10 @@
 		2D7C2A9134D7487EB17A7030 /* UICKeyChainStore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "UICKeyChainStore.h"; path = "hu.dpal.phonegap.plugins.UniqueDeviceID/UICKeyChainStore.h"; sourceTree = "<group>"; fileEncoding = 4; };
 		69B0082E775B4DCF87195AF2 /* CDVUniqueDeviceID.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "CDVUniqueDeviceID.h"; path = "hu.dpal.phonegap.plugins.UniqueDeviceID/CDVUniqueDeviceID.h"; sourceTree = "<group>"; fileEncoding = 4; };
 		9B325DEA7593488184B5653F /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = "Security.framework"; path = "System/Library/Frameworks/Security.framework"; sourceTree = SDKROOT; fileEncoding = 4; };
+		29280C5222C74F11B310F078 /* AppDelegate+notification.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "AppDelegate+notification.m"; path = "com.phonegap.plugins.PushPlugin/AppDelegate+notification.m"; sourceTree = "<group>"; fileEncoding = 4; };
+		E79E13AB6202481D83C20C6D /* PushPlugin.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "PushPlugin.m"; path = "com.phonegap.plugins.PushPlugin/PushPlugin.m"; sourceTree = "<group>"; fileEncoding = 4; };
+		EE06F4007126487C98B7D042 /* AppDelegate+notification.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "AppDelegate+notification.h"; path = "com.phonegap.plugins.PushPlugin/AppDelegate+notification.h"; sourceTree = "<group>"; fileEncoding = 4; };
+		E337F8AFE0AD43578FF98E85 /* PushPlugin.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "PushPlugin.h"; path = "com.phonegap.plugins.PushPlugin/PushPlugin.h"; sourceTree = "<group>"; fileEncoding = 4; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -216,6 +222,10 @@
 				A3BBF07E0DD34E179E9ABEF6 /* CDVUniqueDeviceID.m */,
 				2D7C2A9134D7487EB17A7030 /* UICKeyChainStore.h */,
 				69B0082E775B4DCF87195AF2 /* CDVUniqueDeviceID.h */,
+				29280C5222C74F11B310F078 /* AppDelegate+notification.m */,
+				E79E13AB6202481D83C20C6D /* PushPlugin.m */,
+				EE06F4007126487C98B7D042 /* AppDelegate+notification.h */,
+				E337F8AFE0AD43578FF98E85 /* PushPlugin.h */,
 			);
 			name = Plugins;
 			path = "myTed/Plugins";
@@ -402,6 +412,8 @@
 				302D95F114D2391D003F00A1 /* MainViewController.m in Sources */,
 				2546C2AC41CE4C34A26DCECF /* UICKeyChainStore.m in Sources */,
 				56237E54AFB748E6A773C552 /* CDVUniqueDeviceID.m in Sources */,
+				F85C2FF19A0040C0B21AED1A /* AppDelegate+notification.m in Sources */,
+				3350F966DDB7494A8B625049 /* PushPlugin.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -45,6 +45,78 @@ var app = {
         receivedElement.setAttribute('style', 'display:block;');
 
         console.log('Received Event: ' + id);
+    },
+    
+    initPushNotificationRegister: function(){
+        var pushNotification = window.plugins.pushNotification;
+        
+        
+        if ( device.platform == 'android' || device.platform == 'Android'){
+            pushNotification.register(app.successHandler, app.errorHandler,{"senderID":"165573687429","ecb":"app.onNotificationGCM"});
+        } 
+        else {
+            pushNotification.register(app.tokenHandler,app.errorHandler,{"badge":"true","sound":"true","alert":"true","ecb":"app.onNotificationAPN"});
+        }
+
+    },
+    
+    // result contains any message sent from the plugin call
+    successHandler: function(result) {
+//        alert('Callback Success! Result = '+result);
+    },
+    
+    errorHandler:function(error) {
+//        alert(error);
+    },
+    
+    onNotificationGCM: function(e) {
+        switch( e.event )
+        {
+            case 'registered':
+//                $("#redidtxtareas").val(e.regid);
+                if ( e.regid.length > 0 )
+                {
+                  postDeviceInfo("new", e.regid);
+                }
+            break;
+ 
+            case 'message':
+              // this is the actual push notification. its format depends on the data model from the push server
+//              alert('message = '+e.message+' msgcnt = '+e.msgcnt);
+            break;
+ 
+            case 'error':
+//              alert('GCM error = '+e.msg);
+            break;
+ 
+            default:
+//              alert('An unknown GCM event has occurred');
+              break;
+        }
+    },
+    
+    tokenHandler: function(result) {
+        // Your iOS push server needs to know the token before it can push to this device
+        // here is where you might want to send it the token for later use.
+        postDeviceInfo("new", regid);
+    },
+    
+    onNotificationAPN: function(event) {
+        if ( event.alert )
+        {
+            navigator.notification.alert(event.alert);
+        }
+
+        if ( event.sound )
+        {
+            var snd = new Media(event.sound);
+            snd.play();
+        }
+
+        if ( event.badge )
+        {
+            pushNotification.setApplicationIconBadgeNumber(successHandler, errorHandler, event.badge);
+        }
     }
 };
 

@@ -87,8 +87,7 @@ function changepage(pagenumber){
         $(".selectedItem").animate({
                 marginLeft: "32.75%",}, 300, function() {$(".selectedItem").css("width", "34.5%");});
         
-//        navigator.geolocation.getCurrentPosition(onSuccess, onError);    
-        
+        initGoogleMap();
     }
     
     if(pagenumber==3 && currentpage!=pagenumber){
@@ -154,7 +153,6 @@ function pageSwipeLeft(){
 
             $(".selectedItem").animate({
                     marginLeft: "67.25%",}, 300, function() {$(".selectedItem").css("width", "32.75%");});
-            
         }    
     }
     else{
@@ -213,4 +211,87 @@ function pageSwipeRight(){
 function initPromoList(){
     var mid=getUrlParameter("mID");
     getMerchantPromoList(mid);
+}
+
+
+
+
+//-----------------------------------------------------------------
+//-----------------------------------------------------------------
+//-----------------------------------------------------------------
+//google map
+var map;
+var infowindow;
+
+function initGoogleMap(){
+    var latlong=new google.maps.LatLng(1.542160222923056 , 103.80120195144707);
+    
+    var mapOptions={
+        center:latlong,
+        zoom:12,
+        mapTypeId: google.maps.MapTypeId.ROADMAP,
+        navigationControlOptions: {
+            style: google.maps.NavigationControlStyle.SMALL
+        },
+        mapTypeControl: false,
+    };
+    
+    map=new google.maps.Map(document.getElementById("geolocation"), mapOptions);
+    
+    var mID=getUrlParameter("mID");
+    getBranchList(mID);
+//    if (navigator.geolocation) {
+//        navigator.geolocation.getCurrentPosition(onSucccessGetPosition, onErrorGetPosition,{timeout: 10000, enableHighAccuracy: true});    
+//    }
+}
+
+function markPosition(addresses, name){
+//    var latitude=position.coords.latitude;
+//    var longitude=position.coords.longitude;
+    var latlong=new google.maps.LatLng(1.542160222923056 , 103.80120195144707);
+    
+    var mapOptions={
+        center:latlong,
+        zoom:8,
+        mapTypeId: google.maps.MapTypeId.ROADMAP,
+        navigationControlOptions: {
+            style: google.maps.NavigationControlStyle.SMALL
+        },
+        mapTypeControl: false,
+    };
+
+    map=new google.maps.Map(document.getElementById("geolocation"), mapOptions);
+    var geocoder = new google.maps.Geocoder(); 
+    infowindow = new google.maps.InfoWindow();
+                    
+    for (var x = 0; x < addresses.length; x++) {
+        (function(){
+            var address=addresses[x];
+            var branchname=name[x];
+//            alert(address);
+            geocoder.geocode({address:address}, function(results,status){ 
+                if (status == google.maps.GeocoderStatus.OK) {
+                    var p = results[0].geometry.location;
+                    var lat=p.lat();
+                    var lng=p.lng();
+                    createMarker(address,lat,lng, branchname);
+                }
+            });
+                    
+        })(addresses[x], name[x]);
+    }
+}
+
+function createMarker(add,lat,lng, name) {
+    var contentString = name;
+    var latlong = new google.maps.LatLng(lat,lng);
+    var marker = new google.maps.Marker({
+        position: latlong,
+        map: map,
+    });
+
+    google.maps.event.addListener(marker, 'click', function() {
+        infowindow.setContent(contentString); 
+        infowindow.open(map,marker);
+    });
 }

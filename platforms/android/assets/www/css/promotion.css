@@ -356,6 +356,11 @@
     background-color: transparent;
 }
 
+.pagetwo li{
+    height: 50vw;
+    background-color: transparent;
+}
+
 /*
 .pagetwo li{
     position: relative;
@@ -416,9 +421,8 @@
 }
 
 .geolocationDiv{
-    height: 300px;
+    height: 100%;
     width: 100%;
-    z-index: 99;
 /*    position: absolute;*/
 /*    background-color: green;*/
 }

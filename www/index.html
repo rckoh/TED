@@ -25,10 +25,11 @@
             document.addEventListener("deviceready", onDeviceReady, false);
             
             function onDeviceReady() {
-//                var marginleft=$(".app").width()/2-$(".appLogo").width()/2;
-//                $(".appLogo").css("margin-left", marginleft);
-//                  $(".appLogo").show();  
-                postDeviceInfo();
+                document.addEventListener("backbutton", onBackKeyDown, false);
+            }
+            
+            function onBackKeyDown(e) {
+              e.preventDefault();  
             }
             
             
@@ -68,7 +69,15 @@
         </div>
         <script type="text/javascript">
             app.initialize();
+            dbmanager.initdb();
             $(document).ready(function(){
+                app.initPushNotificationRegister();
+                dbmanager.getProfile(function(returnData){
+                    if(returnData.rows.length>0)
+                    {
+                        window.location="home.html";
+                    }
+                });
                 var marginleft=$(".app").width()/2-$(".appLogo").width()/2;
                 $(".appLogo").css("margin-left", marginleft);
                 $(".appLogo").show();

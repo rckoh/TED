@@ -14,9 +14,8 @@
     <feature name="LocalStorage">
         <param name="ios-package" value="CDVLocalStorage" />
     </feature>
-    <feature name="UniqueDeviceID">
-        <param name="ios-package" value="CDVUniqueDeviceID" />
-        <param name="onload" value="true" />
+    <feature name="PushPlugin">
+        <param name="ios-package" value="PushPlugin" />
     </feature>
     <allow-intent href="itms:*" />
     <allow-intent href="itms-apps:*" />
@@ -69,6 +68,7 @@
     <gap:plugin name="cordova-plugin-splashscreen" source="npm" />
     <gap:plugin name="cordova-plugin-vibration" source="npm" />
     <gap:plugin name="com.phonegap.plugin.statusbar" />
+    <gap:plugin name="com.phonegap.plugins.PushPlugin" />
     <gap:plugin name="com.phonegap.plugins.facebookconnect" version="0.9.0">
         <param name="APP_ID" value="521613448006826 " />
         <param name="APP_NAME" value="myTed" />
@@ -107,6 +107,10 @@
     <key>UIViewControllerBasedStatusBarAppearance</key>
     <false />
     <access origin="*" />
+    <access origin="http://google.com" />
+    <access origin="*.google.com" />
+    <access origin="*.googleapis.com" />
+    <access origin="*.gstatic.com" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
     <allow-intent href="tel:*" />

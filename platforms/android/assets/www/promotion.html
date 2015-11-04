@@ -12,7 +12,7 @@
         <script type="text/javascript" src="js/promotion.js"></script>
         <script type="text/javascript" src="js/webRequest.js"></script>
         <script type="text/javascript" src="js/common.js"></script>
-        <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBdNCmY8P_u72FgpkdVqZ476PljKfbrhHs&sensor=false"></script>
+        <script src="http://maps.googleapis.com/maps/api/js?v=3&key=AIzaSyBdNCmY8P_u72FgpkdVqZ476PljKfbrhHs&sensor=false"></script>
         <link rel="stylesheet" type="text/css" href="css/common.css" />
         <link rel="stylesheet" type="text/css" href="css/promotion.css" />
         <script type="text/javascript">
@@ -26,46 +26,18 @@
             
             $(function(){
 	
-                $("#pageBody").on("swipeleft", function(){
-                    pageSwipeLeft();
-                });
-                
-                $("#pageBody").on("swiperight", function(){
-                    pageSwipeRight();
-                });
+//                $("#pageBody").on("swipeleft", function(){
+//                    pageSwipeLeft();
+//                });
+//                
+//                $("#pageBody").on("swiperight", function(){
+//                    pageSwipeRight();
+//                });
             });
             
             function onDeviceReady() {
                 
             }
-            
-//            function onSuccess(position){
-//                alert("onscuess");
-//                
-//                //var longitude=103.802426;
-//                //var latitude=1.536000;
-//                var longitude=position.coords.longitude;
-//                var latitude=position.coords.latitude;
-//                var latlong=new google.maps.LatLng(latitude, longitude);
-//                
-//                
-//                
-//                var mapOptions={
-//                    center:latlong,
-//                    zoom:12,
-//                    mapTypeId: google.maps.MapTypeId.RoadMap
-//                };
-//                
-////                var map=new google.maps.Map(document.getElementById("geolocation"), mapOptions);
-//                var map=new google.maps.Map(document.getElementById("geolocation"), mapOptions);
-//                var GeoMarker = new GeolocationMarker(map);
-//            }
-//            
-//            function onError(err){
-//                alert("onfail");
-//                alert("code:"+err.code + "\nmessage"+err.message);
-//            }
-            
         </script>
     </head>
     <body id="pageBody">
@@ -152,9 +124,10 @@
                 <div class="pagetwo">
                     <div class="wrapper" id="wrapper">
                         <div class="scroll-content" id="scroll-content">
-                            <ul class="scrollul" id="scrollul">
+                            <ul class="scrollul" id="scrollulAboutUs">
                                 <li>
-<!--                                    <div id="geolocation" class="geolocationDiv"></div>-->
+                                    <div id="geolocation" class="geolocationDiv"></div>
+<!--    
                                     <div class="aboutus" id="aboutus">
                                         <img class="promoImageSeperator" src="img/aboutSeperator.png" />
                                         <br>
@@ -175,6 +148,7 @@
                                             016-1234567
                                         </p>
                                     </div>
+-->
                                 </li>
                             </ul>
                             <br>
@@ -248,6 +222,7 @@
                 
                 initPromoList();
                 getFbAlbumList();
+                
             });
             
             

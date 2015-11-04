@@ -1,42 +1,43 @@
 var webUrl = "http://cloud.projeksistematik.com.my/ted_app/sch/searchdata.aspx";
+var webApiUrl = "http://192.168.1.19/mobile_rewards_api/";
 //var webUrl = "http://192.168.1.19/MOBILE_REWARDS_APP/sch/searchdata.aspx";
-var apiTimeout=20000;
+var apiTimeout=5000;
 var sha1Key="8809377";
 var fbPhotoList=[];
+var appV="1.0.0";
 
 //------------------------------------------------------------------------
 //------------------------------------------------------------------------
 //------------------------------------------------------------------------
 //post device info
-function postDeviceInfo(){
+function postDeviceInfo(infoType, rid){
+    
+    var webApiClass=webApiUrl+"api/device/new";
+    var deviceId,deviceName, registrationId, imeiNo, appVersion,osVersion;
+    alert(webApiClass);
+    deviceId=device.uuid;
+    deviceName=device.model;
+    registrationId=rid;
+    imeiNo=device.uuid;
+    appVersion=appV;
+    osVersion=device.version;
 
-    var strName="DeviceStr";
-    var DeviceStr = {};
-    DeviceStr["commandFlag"] = "0";
-    DeviceStr["AndroidVersion"] = device.version;
-    DeviceStr["AppsVersion"] = "1.0.0";
-    DeviceStr["DeviceID"] = device.uuid;
-    DeviceStr["DeviceName"] = device.model;
-    DeviceStr["Imei"] = device.uuid;
-    DeviceStr["MerchantID"] = "";
-    DeviceStr["RegistrationID"] = "";
-    
-    var jsonString=JSON.stringify(DeviceStr);
-    var hashedStr=SHA1(jsonString+sha1Key);
-    var postString=strName+"="+jsonString+"|||"+hashedStr;
-    
+    var valueStr=deviceId+deviceName+registrationId+imeiNo+appVersion+osVersion+sha1Key;
+    var hashedStr=SHA1(valueStr);
+    alert(valueStr);
+    alert(hashedStr);
     $.ajax({
-      url: webUrl,
+      url: webApiClass,
       type: "POST",
-      data:postString,
+      data:"deviceId="+deviceId+"&deviceName="+deviceName+"&registrationId="+registrationId+"&imeiNo="+imeiNo
+        +"&appVersion="+appVersion+"&osVersion="+osVersion+"&checksum="+hashedStr,
       headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-        "Content-Length": postString.length,
+        "Content-Type": "application/x-www-form-urlencoded"
       },
       timeout: apiTimeout,    
       success: function(data, status, xhr) {
         debugger;        
-//        alert(data);
+//        alert(JSON.stringify(data));
 //          var returnStr=JSON.stringify(data);
 //          
 //          var returnStr=data.split("|||");
@@ -46,7 +47,7 @@ function postDeviceInfo(){
       },
       error:function (xhr, ajaxOptions, thrownError){
         debugger;
-          alert("failed connect to server");
+//          alert("failed connect to server"+xhr.responseText);
         }
     })
 }
@@ -182,7 +183,6 @@ function getMerchantList(){
             var mID='"'+ newJsonObj[x].EntityID + '"';
             var photo='"'+ newJsonObj[x].EntityPhoto + '"';
             var ENTITYID=newJsonObj[x].EntityID;
-            
             storeMerchant(newJsonObj[x]);
           }
           
@@ -496,6 +496,63 @@ function getMerchantPromoList(mID){
         }
     })
 }
+
+
+//------------------------------------------------------------------------
+//------------------------------------------------------------------------
+//------------------------------------------------------------------------
+//get branch list
+function getBranchList(mID){
+    
+    var strName="OutletStr";
+    var jsonObject = {};
+    jsonObject["commandFlag"] = "1";
+    jsonObject["Address"] = "";
+    jsonObject["BranchID"] = "";
+    jsonObject["BranchName"] = "";
+    jsonObject["BusinessEntity"] = mID;
+    jsonObject["Email"] = "";
+    jsonObject["MerchantID"] = "";
+    jsonObject["Phone"] = "";
+    
+    var jsonString=JSON.stringify(jsonObject);
+    var hashedStr=SHA1(jsonString+sha1Key);
+    var postString=strName+"="+jsonString+"|||"+hashedStr;
+
+    $.ajax({
+      url: webUrl,
+      type: "POST",
+      data:postString,
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+        "Content-Length": postString.length,
+      },
+      timeout: apiTimeout,    
+      success: function(data, status, xhr) {
+        debugger;        
+            
+          var returnStr=data.split("|||");
+          var newJsonObj=$.parseJSON(returnStr[0]);
+          var addresses=[];
+          var name=[];
+          
+//          $("#scrollulAboutUs li").remove();
+          for(var x=0; x<newJsonObj.length; x++){
+            addresses.push(newJsonObj[x].Address);
+            name.push(newJsonObj[x].BranchName );
+          }
+          markPosition(addresses, name); 
+          $("#aboutusli").remove();
+          $("#scrollulAboutUs").append("<li id='aboutusli'><div class='aboutus' id='aboutus'><img class='promoImageSeperator' src='img/aboutSeperator.png' /><br><br><h1>About Us</h1><p>Amsterdam, Auckland, Berlin, Brasilia, Brussels, Buenos Aires, Dubai, Dublin, Gurgaon, Hamburg, Hong Kong, Hyderabad, Jakarta, Karlsruhe, Kuala Lumpur, London, Madrid, Melbourne, Mexico City, Milan, Montreal, Mumbai, New Delhi, Paris, Sao Paulo, Seoul, Singapore, Stockholm, Sydney, Tel Aviv, Tokyo, Toronto, Vancouver, Warsaw Amsterdam, Auckland, Berlin, Brasilia, Brussels, Buenos Aires, Dubai, Dublin, Gurgaon, Hamburg, Hong Kong, Hyderabad, Jakarta, Karlsruhe, Kuala Lumpur, London, Madrid, Melbourne, Mexico City, Milan, Montreal, Mumbai, New Delhi, Paris, Sao Paulo, Seoul, Singapore, Stockholm, Sydney, Tel Aviv, Tokyo, Toronto, Vancouver, Warsaw</p><br><h1>Business Hour</h1><p>Mon-Friday&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;7pm-12amSat-Sun&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;7pm-12am</p><br><h1>Contact Info</h1><p>016-1234567</p></div><br></li>");
+      },
+      error:function (xhr, ajaxOptions, thrownError){
+        debugger;
+          alert("Fail connect to server");
+        }
+    })
+}
+
+
 
 //------------------------------------------------------------------------
 //------------------------------------------------------------------------
