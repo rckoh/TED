@@ -11,10 +11,10 @@ var appV="1.0.0";
 //------------------------------------------------------------------------
 //post device info
 function postDeviceInfo(infoType, rid){
-    
+    alert(rid);
     var webApiClass=webApiUrl+"api/device/new";
     var deviceId,deviceName, registrationId, imeiNo, appVersion,osVersion;
-    alert(webApiClass);
+    
     deviceId=device.uuid;
     deviceName=device.model;
     registrationId=rid;
@@ -24,8 +24,7 @@ function postDeviceInfo(infoType, rid){
 
     var valueStr=deviceId+deviceName+registrationId+imeiNo+appVersion+osVersion+sha1Key;
     var hashedStr=SHA1(valueStr);
-    alert(valueStr);
-    alert(hashedStr);
+    
     $.ajax({
       url: webApiClass,
       type: "POST",

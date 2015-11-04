@@ -98,7 +98,7 @@ var app = {
     tokenHandler: function(result) {
         // Your iOS push server needs to know the token before it can push to this device
         // here is where you might want to send it the token for later use.
-        postDeviceInfo("new", regid);
+        postDeviceInfo("new", result);
     },
     
     onNotificationAPN: function(event) {
