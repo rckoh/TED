@@ -36,6 +36,7 @@ function postDeviceInfo(infoType, rid){
       timeout: apiTimeout,    
       success: function(data, status, xhr) {
         debugger;   
+          alert("success web api");
           storeFirstRun();
 //        alert(JSON.stringify(data));
 //          var returnStr=JSON.stringify(data);
@@ -82,7 +83,7 @@ function errorFirstRun(err){
 }
 
 function successFirstRun(){
-//    alert('insert success');
+        alert('insert success');
 //    loading.endLoading();
 //    window.location="home.html";
 }

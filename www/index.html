@@ -28,7 +28,9 @@
             function onDeviceReady() {
                 document.addEventListener("backbutton", onBackKeyDown, false);
                 try{
-                        app.initPushNotificationRegister();
+                    dbmanager.initdb();
+                    app.initPushNotificationRegister();
+                    
                 }
                 catch(ex){
                         alert(ex.message);
