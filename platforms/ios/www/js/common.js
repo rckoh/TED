@@ -47,6 +47,7 @@ var dbmanager = {
     
     checkFirstRun:function(returnData){
         db.transaction(function(tx){
+            tx.executeSql('create table if not exists FIRSTRUN(RUN TEXT)');
             tx.executeSql('SELECT * FROM FIRSTRUN', [], function(tx, rs){
                 returnData(rs);
           }, this.errorExecuteSQL);
@@ -55,7 +56,6 @@ var dbmanager = {
     
     successExecuteSQL:function(){
         //success to executeSQL
-        //alert("success");
     },
     
     errorExecuteSQL:function(err){
