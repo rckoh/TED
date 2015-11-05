@@ -77,6 +77,7 @@ var app = {
                 if ( e.regid.length > 0 )
                 {
                     dbmanager.checkFirstRun(function(returnData){
+                        alert(returnData.rows.length);
                         if(returnData.rows.length==0){
                             postDeviceInfo("new", e.regid);
                         }    
@@ -103,6 +104,7 @@ var app = {
         // Your iOS push server needs to know the token before it can push to this device
         // here is where you might want to send it the token for later use.
         dbmanager.checkFirstRun(function(returnData){
+            alert(returnData.rows.length);
             if(returnData.rows.length==0){
                 postDeviceInfo("new", result);
             }    
