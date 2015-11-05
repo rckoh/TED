@@ -45,13 +45,13 @@ var dbmanager = {
         });
     },
     
-//    getFollowedMerchantWithID:function(returnData, entityid){
-//        db.transaction(function(tx){
-//            tx.executeSql("SELECT * FROM SubsMerchant where ENTITYID='"+entityid+"'", [], function(tx, rs){
-//                returnData(rs);
-//          }, this.errorExecuteSQL);
-//        });
-//    },
+    checkFirstRun:function(returnData){
+        db.transaction(function(tx){
+            tx.executeSql('SELECT * FROM FIRSTRUN', [], function(tx, rs){
+                returnData(rs);
+          }, this.errorExecuteSQL);
+        });
+    },
     
     successExecuteSQL:function(){
         //success to executeSQL

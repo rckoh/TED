@@ -12,7 +12,7 @@ var appV="1.0.0";
 //post device info
 function postDeviceInfo(infoType, rid){
     
-    alert(rid);
+    
     var webApiClass=webApiUrl+"api/device/new";
     var deviceId,deviceName, registrationId, imeiNo, appVersion,osVersion;
     
@@ -36,7 +36,8 @@ function postDeviceInfo(infoType, rid){
       },
       timeout: apiTimeout,    
       success: function(data, status, xhr) {
-        debugger;        
+        debugger;   
+          storeFirstRun();
 //        alert(JSON.stringify(data));
 //          var returnStr=JSON.stringify(data);
 //          
@@ -50,6 +51,41 @@ function postDeviceInfo(infoType, rid){
 //          alert("failed connect to server"+xhr.responseText);
         }
     })
+}
+
+function storeFirstRun() {
+    var db = window.openDatabase("Database", "1.0", "TED", 200000);
+    var firstRun = {
+    values1 : ["1"]
+    };
+
+    insertFirstRun(firstRun);
+    
+    function insertFirstRun(firstRun) {
+        db.transaction(function(tx) {
+            tx.executeSql('DROP TABLE IF EXISTS FIRSTRUN');
+            tx.executeSql('create table if not exists FIRSTRUN(RUN TEXT)');
+            tx.executeSql('DELETE FROM FIRSTRUN');
+            tx.executeSql(
+                'INSERT INTO FIRSTRUN(RUN) VALUES (?)', 
+                firstRun.values1,
+                successFirstRun,
+                errorFirstRun
+            );
+        });
+    }
+}
+
+function errorFirstRun(err){
+//    alert('Login failed');
+//    navigator.notification.alert("Login failed.", function(){}, "myTed", "Ok");
+//    loading.endLoading();
+}
+
+function successFirstRun(){
+//    alert('insert success');
+//    loading.endLoading();
+//    window.location="home.html";
 }
 
 
