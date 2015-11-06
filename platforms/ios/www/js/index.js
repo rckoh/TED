@@ -125,6 +125,19 @@ function login(){
 function fbLogin(){
     var permission=["public_profile"];
     var fbLoginSuccess = function (userData) {
+        facebookConnectPlugin.api(userData.userID+"/?fields=id,email,name", permission,
+        function (result) {
+            alert("Result: " + JSON.stringify(result));
+            /* alerts:
+                {
+                    "id": "000000123456789",
+                    "email": "myemail@example.com"
+                }
+            */
+        },
+        function (error) {
+            alert("Facebook login failed: " + error);
+        });
                     alert("UserInfo: " + JSON.stringify(userData));
 //                    facebookConnectPlugin.getAccessToken(function(token) {
 //                        alert("Token: " + token);
