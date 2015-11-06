@@ -414,7 +414,7 @@ dbmanager.getProfile(function(returnData){
     imeiNo=device.uuid;
     userIc=returnData.rows.item(0).IC; 
     entityId=mID;
-    alert(mID);
+//    alert(mID);
     var valueStr=imeiNo+userIc+entityId+sha1Key;
     var hashedStr=SHA1(valueStr);
     
@@ -450,7 +450,7 @@ dbmanager.getProfile(function(returnData){
     imeiNo=device.uuid;
     userIc=returnData.rows.item(0).IC; 
     entityId=mID;
-    alert(mID);
+//    alert(mID);
     var valueStr=imeiNo+userIc+entityId+sha1Key;
     var hashedStr=SHA1(valueStr);
     
