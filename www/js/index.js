@@ -136,7 +136,7 @@ function fbLogin(){
             */
         },
         function (error) {
-            alert("Facebook login failed: " + error.message);
+            alert("Facebook login failed: " + JSON.stringify(error));
         });
 //        alert("UserInfo: " + JSON.stringify(userData));
 //        window.location="home.html";
