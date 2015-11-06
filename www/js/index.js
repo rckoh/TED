@@ -136,14 +136,9 @@ function fbLogin(){
             */
         },
         function (error) {
-            alert("Facebook login failed: " + error);
+            alert("Facebook login failed: " + error.message);
         });
-                    alert("UserInfo: " + JSON.stringify(userData));
-//                    facebookConnectPlugin.getAccessToken(function(token) {
-//                        alert("Token: " + token);
-//                    }, function(err) {
-//                        alert("Could not get access token: " + err);
-//                    });
+//        alert("UserInfo: " + JSON.stringify(userData));
 //        window.location="home.html";
     }
                 
