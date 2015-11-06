@@ -6,7 +6,7 @@ var slideMenu = {
     
     initSlideMenu: function(){
         $("#slidemenu").append("<li onclick='aboutUsOnClick();'><div class='itemlabel'>About Us</div></li>");
-        $("#slidemenu").append("<li><div class='itemlabel'>Forgot Password</div></li>");
+        $("#slidemenu").append("<li onClick='forgotPwdOnClick();'><div class='itemlabel'>Forgot Password</div></li>");
         $("#slidemenu").append("<li onclick='logoutOnClick();'><div class='itemlabel'>Logout</div></li>");
     },    
 }
@@ -129,6 +129,13 @@ function successDeleteProfile(){
     window.location="index.html";
 }
 
+function forgotPwdOnClick(){
+    clickmenubutton();
+    dbmanager.getProfile(function(returnData){
+        postForgotPwd(returnData.rows.item(0).PHONE);
+    });
+    
+}
 
 //----------------------------------------------------------
 //----------------------------------------------------------

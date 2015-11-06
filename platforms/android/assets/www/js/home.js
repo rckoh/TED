@@ -57,10 +57,23 @@ function pageSwipeLeft(){
     }
 }
 
-function goPromoPage(mid, photo){
-    window.location="promotion.html?mID="+mid+"&photo="+photo;
+function goPromoPage(mid, photo, fbid, name, aboutus, startbh, endbh, contact){
+    window.location="promotion.html?mID="+mid+"&photo="+photo+"&fbid="+fbid+"&name="+name+"&aboutus="+aboutus+"&startbh="+startbh+"&endbh="+endbh+"&contact="+contact;
 }
 
 function initMerchantList(){
     getMerchantList();
+}
+
+function filterItemOnclick(industryId, industryName){
+    var buttonvalue=industryName;
+    $(".selectedFilter").text(buttonvalue);    
+    filterOnclick();
+    
+    if(industryId!=""){
+        getFilterMerchantList(industryId);
+    }
+    else{
+        getMerchantList();
+    }
 }

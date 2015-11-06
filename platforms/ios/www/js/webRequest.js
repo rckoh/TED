@@ -5,6 +5,8 @@ var apiTimeout=5000;
 var sha1Key="8809377";
 var fbPhotoList=[];
 var appV="1.0.0";
+var accessToken='521613448006826|121e97ebec02027ad471542a599f351e';//facebook access token
+var fbUrl="https://graph.facebook.com/";
 
 //------------------------------------------------------------------------
 //------------------------------------------------------------------------
@@ -36,15 +38,8 @@ function postDeviceInfo(infoType, rid){
       timeout: apiTimeout,    
       success: function(data, status, xhr) {
         debugger;   
-          alert("success web api");
-          storeFirstRun();
-//        alert(JSON.stringify(data));
-//          var returnStr=JSON.stringify(data);
-//          
-//          var returnStr=data.split("|||");
-//          var newJsonObj=$.parseJSON(returnStr[0]);
-          
 
+          storeFirstRun();
       },
       error:function (xhr, ajaxOptions, thrownError){
         debugger;
@@ -83,7 +78,7 @@ function errorFirstRun(err){
 }
 
 function successFirstRun(){
-        alert('insert success');
+//        alert('insert success');
 //    loading.endLoading();
 //    window.location="home.html";
 }
@@ -94,45 +89,34 @@ function successFirstRun(){
 //------------------------------------------------------------------------
 //login
 function postLogin(username, pwd){
-
-    var strName="ProfileStr";
-    var ProfileStr = {};
-    ProfileStr["commandFlag"] = "9";
-    ProfileStr["Phone"] = username;
-    ProfileStr["Password"] = pwd;
-    ProfileStr["ID"] = device.uuid;
     
-    var jsonString=JSON.stringify(ProfileStr);
-    var hashedStr=SHA1(jsonString+sha1Key);
-    var postString=strName+"="+jsonString+"|||"+hashedStr;
+    var webApiClass=webApiUrl+"api/profile/phonelogin";
+    var loginType, imeiNo, loginId, loginPwd;
+    
+    loginType="phone";
+    imeiNo=device.uuid;
+    loginId=username;
+    loginPwd=pwd;
 
+    var valueStr=loginType+imeiNo+loginId+loginPwd+sha1Key;
+    var hashedStr=SHA1(valueStr);
     
     $.ajax({
-      url: webUrl,
+      url: webApiClass,
       type: "POST",
-      data:postString,
+      data:"loginType="+loginType+"&imeiNo="+imeiNo+"&loginId="+loginId+"&loginPwd="+loginPwd
+        +"&checksum="+hashedStr,
       headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-        "Content-Length": postString.length,
+        "Content-Type": "application/x-www-form-urlencoded"
       },
-      timeout: apiTimeout,    
+      timeout: apiTimeout,  
       success: function(data, status, xhr) {
         debugger;        
-          
-          var returnStr=JSON.stringify(data);
-          
-          var returnStr=data.split("|||");
-          var newJsonObj=$.parseJSON(returnStr[0]);
-
-          storeProfile(newJsonObj.Name, newJsonObj.IC, newJsonObj.Email, newJsonObj.Phone, newJsonObj.Address1, newJsonObj.Address2, newJsonObj.PostCode, newJsonObj.City, newJsonObj.State);
-
-//          window.location="home.html";
+          storeProfile(data.name, data.ic, data.email, data.phone, data.address1, data.address2, data.postCode, data.city, data.stateId);
       },
       error:function (xhr, ajaxOptions, thrownError){
         debugger;
-          
-          alert("Fail connect to server");
-          
+          alert(xhr.responseText);
         }
     })
 }
@@ -173,6 +157,45 @@ function successLogin(){
 }
 
 
+
+//------------------------------------------------------------------------
+//------------------------------------------------------------------------
+//------------------------------------------------------------------------
+//Merchant industry list 
+function getIndustryList(){
+    var webApiClass=webApiUrl+"api/merchant/industry";
+    
+     $.ajax({
+      url: webApiClass,
+      type: "GET",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded"
+      },
+      timeout: apiTimeout,     
+      success: function(data, status, xhr) {
+        debugger;        
+          
+          $(".filterOption ul li").remove();
+          var industryId='""';
+          var industryName='"All Categories"';
+          
+          $(".filterOption ul").append("<li onclick='filterItemOnclick("+industryId+","+industryName+")'>All Categories</li>");
+          for(var x=0; x<data.length; x++){
+            industryId='"'+ data[x].industryId + '"';
+            industryName='"'+ data[x].industryName + '"';
+            $(".filterOption ul").append("<li onclick='filterItemOnclick("+industryId+","+industryName+")'>"+data[x].industryName+"</li>");
+          }
+
+      },
+      error:function (xhr, ajaxOptions, thrownError){
+        debugger;
+          alert(xhr.responseText);
+        }
+    })
+}
+
+
+
 //------------------------------------------------------------------------
 //------------------------------------------------------------------------
 //------------------------------------------------------------------------
@@ -180,70 +203,90 @@ function successLogin(){
 var entityIDHolder;
 
 function getMerchantList(){
-    var strName="EntityStr";
-    var jsonObject = {};
-    jsonObject["commandFlag"] = "0";
-    jsonObject["EntityID"] = "";
-    jsonObject["EntityName"] = "";
-    jsonObject["EntityPhoto"] = "";
-    jsonObject["EntityPoint"] = "";
-    jsonObject["IC"] = "";
-    jsonObject["Imei"] = "";
+    var webApiClass=webApiUrl+"api/merchant/list";
     
-    var jsonString=JSON.stringify(jsonObject);
-    var hashedStr=SHA1(jsonString+sha1Key);
-    var postString=strName+"="+jsonString+"|||"+hashedStr;
-
-    $.ajax({
-      url: webUrl,
-      type: "POST",
-      data:postString,
+     $.ajax({
+      url: webApiClass,
+      type: "GET",
       headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-        "Content-Length": postString.length,
+        "Content-Type": "application/x-www-form-urlencoded"
       },
-      timeout: apiTimeout,    
+      timeout: apiTimeout,     
       success: function(data, status, xhr) {
         debugger;        
         
-          var returnStr=data.split("|||");
-          var newJsonObj=$.parseJSON(returnStr[0]);
-          
           db.transaction(function(tx) {
             tx.executeSql('DROP TABLE IF EXISTS Merchant');
-            tx.executeSql('create table if not exists Merchant(ENTITYID TEXT, NAME TEXT, PHOTO TEXT)');
+            tx.executeSql('create table if not exists Merchant(ENTITYID TEXT, NAME TEXT, PHOTO TEXT, CATEGORY TEXT, FBID TEXT, ABOUTUS TEXT, STARTBUSINESS TEXT, ENDBUSINESS TEXT, CONTACT TEXT)');
             tx.executeSql('DELETE FROM Merchant');
           });
-          
-          for(var x=0; x<newJsonObj.length; x++){
-            var mID='"'+ newJsonObj[x].EntityID + '"';
-            var photo='"'+ newJsonObj[x].EntityPhoto + '"';
-            var ENTITYID=newJsonObj[x].EntityID;
-            storeMerchant(newJsonObj[x]);
+         
+          for(var x=0; x<data.length; x++){
+//            var mID='"'+ data[x].entityId + '"';
+//            var photo='"'+ data[x].entityLogo + '"';
+//            var ENTITYID=data[x].entityId;
+//            var industri=data[x].entityIndustry;
+            storeMerchant(data[x]);
           }
           
           loadMerchantList();
       },
       error:function (xhr, ajaxOptions, thrownError){
         debugger;
-          
-          alert("Fail connect to server");
-          
+          alert(xhr.responseText);
         }
     })
 }
 
+
+function getFilterMerchantList(industryId){
+    var webApiClass=webApiUrl+"api/merchant/list?industryId="+industryId;
+    
+     $.ajax({
+      url: webApiClass,
+      type: "GET",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded"
+      },
+      timeout: apiTimeout,     
+      success: function(data, status, xhr) {
+        debugger;        
+          
+          db.transaction(function(tx) {
+            tx.executeSql('DROP TABLE IF EXISTS Merchant');
+            tx.executeSql('create table if not exists Merchant(ENTITYID TEXT, NAME TEXT, PHOTO TEXT, CATEGORY TEXT, FBID TEXT, ABOUTUS TEXT, STARTBUSINESS TEXT, ENDBUSINESS TEXT, CONTACT TEXT)');
+            tx.executeSql('DELETE FROM Merchant');
+          });
+          
+          for(var x=0; x<data.length; x++){
+//            var mID='"'+ data[x].entityId + '"';
+//            var photo='"'+ data[x].entityLogo + '"';
+//            var ENTITYID=data[x].entityId;
+//            var industri=data[x].entityIndustry;
+            storeMerchant(data[x]);
+          }
+          
+          loadMerchantList();
+      },
+      error:function (xhr, ajaxOptions, thrownError){
+        debugger;
+          alert(xhr.responseText);
+        }
+    })
+}
+
+
 function storeMerchant(jsonObject) {
     var merchant = {
-    values1 : [jsonObject.EntityID, jsonObject.EntityName, jsonObject.EntityPhoto]
+    values1 : [jsonObject.entityId, jsonObject.entityName, jsonObject.entityLogo, jsonObject.entityIndustry, jsonObject.entityFacebookPgId, jsonObject.entityInfo, jsonObject.entityBHStart, jsonObject.entityBHEnd, jsonObject.entityContact]
     };
-
+    
     insertMerchant(merchant);
     
     function insertMerchant(merchant) {
         db.transaction(function(tx) {
             tx.executeSql(
-                'INSERT INTO Merchant(ENTITYID, NAME, PHOTO) VALUES (?, ?, ?)', 
+                'INSERT INTO Merchant(ENTITYID, NAME, PHOTO, CATEGORY, FBID, ABOUTUS, STARTBUSINESS, ENDBUSINESS, CONTACT) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)', 
                 merchant.values1,
                 successStoreMerchant,
                 errorStoreMerchant
@@ -253,26 +296,38 @@ function storeMerchant(jsonObject) {
 }
 
 function errorStoreMerchant(err){
-
+//    alert("failed"+err.message);
 }
 
 function successStoreMerchant(){
-
+//    alert("success");
 }
 
 
 function loadMerchantList(){
     db.transaction(function(tx){
-                tx.executeSql("SELECT a.ENTITYID, a.NAME, a.PHOTO, b.SUBSCRIBED FROM Merchant a left join SubsMerchant b on a.ENTITYID=b.ENTITYID and b.SUBSCRIBED='1' ORDER BY b.SUBSCRIBED desc, a.NAME", [], function(transaction, results){
-            
+                tx.executeSql("SELECT a.ENTITYID, a.NAME, a.PHOTO, a.FBID, b.SUBSCRIBED, a.ABOUTUS, a.STARTBUSINESS, a.ENDBUSINESS, a.CONTACT FROM Merchant a left join SubsMerchant b on a.ENTITYID=b.ENTITYID and b.SUBSCRIBED='1' ORDER BY b.SUBSCRIBED desc, a.NAME", [], function(transaction, results){
+            $(".scrollul li").remove();
             for(var x=0; x<results.rows.length; x++){
                 var mID='"'+ results.rows.item(x).ENTITYID + '"';
                 var photo='"'+ results.rows.item(x).PHOTO + '"';
+                var name='"'+ results.rows.item(x).NAME + '"';
+                var fbid=results.rows.item(x).FBID;
+                var aboutus='"' + results.rows.item(x).ABOUTUS + '"';
+                var startBH='"' + results.rows.item(x).STARTBUSINESS + '"';
+                var endBH='"' + results.rows.item(x).ENDBUSINESS + '"';
+                var contactNo='"' + results.rows.item(x).CONTACT + '"';
+                
+                if(fbid==null)
+                    fbid='""';  
+                else
+                    fbid='"'+ fbid + '"';
+                
                 if(results.rows.item(x).SUBSCRIBED=="1"){
-                        $(".scrollul").append("<li id='merchantRow"+x+"'><div class='merchantDiv'><img class='merchantImageSeperator' src='img/eventSeperator.png' /><img class='merchantImage' src='"+results.rows.item(x).PHOTO+"' onclick='goPromoPage("+mID+","+photo+");'/><span class='merchantName'>"+results.rows.item(x).NAME+"</span><button class='merchantFollower'>100 Followers</button><button class='merchantFollow' id='unFollowBtn' onclick='postUnSubscribedMerchant("+x+", "+mID+");'><img src='img/unfollow.png'/>Followed</button></div></li>");
+                        $(".scrollul").append("<li id='merchantRow"+x+"'><div class='merchantDiv'><img class='merchantImageSeperator' src='img/eventSeperator.png' /><img class='merchantImage' src='"+results.rows.item(x).PHOTO+"' onclick='goPromoPage("+mID+","+photo+","+fbid+","+name+","+aboutus+","+startBH+","+endBH+","+contactNo+");'/><span class='merchantName'>"+results.rows.item(x).NAME+"</span><button class='merchantFollower'>100 Followers</button><button class='merchantFollow' id='unFollowBtn' onclick='postUnSubscribedMerchant("+x+", "+mID+");'><img src='img/unfollow.png'/>Followed</button></div></li>");
                     }
                     else{
-                        $(".scrollul").append("<li id='merchantRow"+x+"'><div class='merchantDiv'><img class='merchantImageSeperator' src='img/eventSeperator.png' /><img class='merchantImage' src='"+results.rows.item(x).PHOTO+"' onclick='goPromoPage("+mID+","+photo+");'/><span class='merchantName'>"+results.rows.item(x).NAME+"</span><button class='merchantFollower'>100 Followers</button><button class='merchantFollow' id='followBtn' onclick='postSubscribedMerchant("+x+", "+mID+");'><img src='img/addFollow.png'/>Following</button></div></li>");
+                        $(".scrollul").append("<li id='merchantRow"+x+"'><div class='merchantDiv'><img class='merchantImageSeperator' src='img/eventSeperator.png' /><img class='merchantImage' src='"+results.rows.item(x).PHOTO+"' onclick='goPromoPage("+mID+","+photo+","+fbid+","+name+","+aboutus+","+startBH+","+endBH+","+contactNo+");'/><span class='merchantName'>"+results.rows.item(x).NAME+"</span><button class='merchantFollower'>100 Followers</button><button class='merchantFollow' id='followBtn' onclick='postSubscribedMerchant("+x+", "+mID+");'><img src='img/addFollow.png'/>Following</button></div></li>");
                 }
             }       
         }, failgetMetchantList);
@@ -288,52 +343,33 @@ function failgetMetchantList(){
 //get subscribed merchant list
 function getSubscribedMerchantList(){
 dbmanager.getProfile(function(returnData){
-    var strName="EntityStr";
-    var jsonObject = {};
-    
-    jsonObject["commandFlag"] = "3";
-    jsonObject["EntityID"] = "";
-    jsonObject["EntityName"] = "";
-    jsonObject["EntityPhoto"] = "";
-    jsonObject["EntityPoint"] = "";    
-    jsonObject["Imei"] = device.uuid;
-    jsonObject["IC"] = returnData.rows.item(0).IC; 
-    
-    
-    var jsonString=JSON.stringify(jsonObject);
-    var hashedStr=SHA1(jsonString+sha1Key);
-    var postString=strName+"="+jsonString+"|||"+hashedStr;
+    var webApiClass=webApiUrl+"api/merchant/mine?userIc="+returnData.rows.item(0).IC;
 
     $.ajax({
-      url: webUrl,
-      type: "POST",
-      data:postString,
+      url: webApiClass,
+      type: "GET",
       headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-        "Content-Length": postString.length,
+        "Content-Type": "application/x-www-form-urlencoded"
       },
-      timeout: apiTimeout,    
+      timeout: apiTimeout,        
       success: function(data, status, xhr) {
         debugger;        
-          
-          var returnStr=data.split("|||");
-          var newJsonObj=$.parseJSON(returnStr[0]);
-          var entityID=[];
           
           db.transaction(function(tx) {
             tx.executeSql('DROP TABLE IF EXISTS SubsMerchant');
             tx.executeSql('create table if not exists SubsMerchant(ENTITYID TEXT, SUBSCRIBED TEXT)');
             tx.executeSql('DELETE FROM SubsMerchant');
           });
-          for(var x=0; x<newJsonObj.length; x++){
-            storeSubscribedMerchant(newJsonObj[x].EntityID, newJsonObj[x].AllowNotify);
+          
+          for(var x=0; x<data.length; x++){
+            storeSubscribedMerchant(data[x].entityId, data[x].allowNotify.toString());
           }
           
           getMerchantList();
       },
       error:function (xhr, ajaxOptions, thrownError){
         debugger;
-          alert("Fail connect to server");
+          alert(xhr.responseText);
         }
     })
 });
@@ -373,49 +409,35 @@ function successStoreSubsmerchant(){
 //subscribe or unsubscribe merchant
 function postSubscribedMerchant(x, mID){
 dbmanager.getProfile(function(returnData){
-    var strName="EntityStr";
-    var jsonObject = {};
+    var webApiClass=webApiUrl+"api/merchant/subscribe";
+    var imeiNo, userIc, entityId;
+    imeiNo=device.uuid;
+    userIc=returnData.rows.item(0).IC; 
+    entityId=mID;
+    alert(mID);
+    var valueStr=imeiNo+userIc+entityId+sha1Key;
+    var hashedStr=SHA1(valueStr);
     
-    jsonObject["commandFlag"] = "4";
-    jsonObject["EntityID"] = mID;
-    jsonObject["EntityName"] = "";
-    jsonObject["EntityPhoto"] = "";
-    jsonObject["EntityPoint"] = "";    
-    jsonObject["Imei"] = device.uuid;
-    jsonObject["Status"] = "1";
-    jsonObject["IC"] = returnData.rows.item(0).IC; 
-    
-    var jsonString=JSON.stringify(jsonObject);
-    var hashedStr=SHA1(jsonString+sha1Key);
-    var postString=strName+"="+jsonString+"|||"+hashedStr;
-    alert(postString);
     $.ajax({
-      url: webUrl,
+      url: webApiClass,
       type: "POST",
-      data:postString,
+      data:"imeiNo="+imeiNo+"&userIc="+userIc+"&entityId="+entityId+"&checksum="+hashedStr,
       headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-        "Content-Length": postString.length,
+        "Content-Type": "application/x-www-form-urlencoded"
       },
       timeout: apiTimeout,    
       success: function(data, status, xhr) {
         debugger;        
             
-            var returnStr=data.split("|||");
-            var messagestring=returnStr[0].substring(0,9);
-
-            if(messagestring=="Message13"){
-                $("#merchantRow"+x+" #followBtn").remove();
-                $("#merchantRow"+x+" .merchantDiv").append("<button class='merchantFollow' id='unFollowBtn' onclick='postUnSubscribedMerchant("+x+", "+mID+");'><img src='img/unfollow.png'/>Followed</button>");
-                $("#merchantRow"+x+" #unFollowBtn").click(function(){ postUnSubscribedMerchant(x, mID) });
-            }
-            else{
-                alert("Subscribe failed.");
-            }
+            alert(xhr.responseText);
+          
+            $("#merchantRow"+x+" #followBtn").remove();
+            $("#merchantRow"+x+" .merchantDiv").append("<button class='merchantFollow' id='unFollowBtn' onclick='postUnSubscribedMerchant("+x+", "+mID+");'><img src='img/unfollow.png'/>Followed</button>");
+            $("#merchantRow"+x+" #unFollowBtn").click(function(){ postUnSubscribedMerchant(x, mID) });
       },
       error:function (xhr, ajaxOptions, thrownError){
         debugger;
-          alert("Fail connect to server");
+            alert(xhr.responseText);
         }
     })
 });
@@ -423,49 +445,35 @@ dbmanager.getProfile(function(returnData){
 
 function postUnSubscribedMerchant(x, mID){
 dbmanager.getProfile(function(returnData){
-    var strName="EntityStr";
-    var jsonObject = {};
-    
-    jsonObject["commandFlag"] = "4";
-    jsonObject["EntityID"] = mID;
-    jsonObject["EntityName"] = "";
-    jsonObject["EntityPhoto"] = "";
-    jsonObject["EntityPoint"] = "";    
-    jsonObject["Imei"] = device.uuid;
-    jsonObject["Status"] = "2";
-    jsonObject["IC"] = returnData.rows.item(0).IC; 
-    
-    var jsonString=JSON.stringify(jsonObject);
-    var hashedStr=SHA1(jsonString+sha1Key);
-    var postString=strName+"="+jsonString+"|||"+hashedStr;
+    var webApiClass=webApiUrl+"api/merchant/unsubscribe";
+    var imeiNo, userIc, entityId;
+    imeiNo=device.uuid;
+    userIc=returnData.rows.item(0).IC; 
+    entityId=mID;
+    alert(mID);
+    var valueStr=imeiNo+userIc+entityId+sha1Key;
+    var hashedStr=SHA1(valueStr);
     
     $.ajax({
-      url: webUrl,
+      url: webApiClass,
       type: "POST",
-      data:postString,
+      data:"imeiNo="+imeiNo+"&userIc="+userIc+"&entityId="+entityId+"&checksum="+hashedStr,
       headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-        "Content-Length": postString.length,
+        "Content-Type": "application/x-www-form-urlencoded"
       },
       timeout: apiTimeout,    
       success: function(data, status, xhr) {
         debugger;        
         
-            var returnStr=data.split("|||");
-            var messagestring=returnStr[0].substring(0,9);
+            alert(data);
 
-            if(messagestring=="Message14"){
-                $("#merchantRow"+x+" #unFollowBtn").remove();
-                $("#merchantRow"+x+" .merchantDiv").append("<button class='merchantFollow' id='followBtn' onclick='postSubscribedMerchant("+x+", "+mID+");'><img src='img/addFollow.png'/>Following</button>");
-                $("#merchantRow"+x+" #followBtn").click(function(){ postSubscribedMerchant(x, mID)});
-            }
-            else{
-                alert("Unsubscribe failed.");
-            }
+            $("#merchantRow"+x+" #unFollowBtn").remove();
+            $("#merchantRow"+x+" .merchantDiv").append("<button class='merchantFollow' id='followBtn' onclick='postSubscribedMerchant("+x+", "+mID+");'><img src='img/addFollow.png'/>Following</button>");
+            $("#merchantRow"+x+" #followBtn").click(function(){ postSubscribedMerchant(x, mID)});
       },
       error:function (xhr, ajaxOptions, thrownError){
         debugger;
-          alert("Fail connect to server");
+          alert(xhr.responseText);
         }
     })
 });  
@@ -477,58 +485,31 @@ dbmanager.getProfile(function(returnData){
 //------------------------------------------------------------------------
 //get promotion list
 function getMerchantPromoList(mID){
+    var webApiClass=webApiUrl+"api/merchant/promotion?entityId="+mID;
     
-    var strName="PromotionStr";
-    var jsonObject = {};
-    jsonObject["commandFlag"] = "0";
-    jsonObject["PromoBusinessEntity"] = mID;
-    jsonObject["PromotionCategory"] = "";
-    jsonObject["PromotionDescription"] = "";
-    jsonObject["PromotionEndDate"] = "";
-    jsonObject["PromotionHighLight"] = "";
-    jsonObject["PromoID"] = "";
-    jsonObject["PromoMerchant"] = "";
-    jsonObject["PromoPhoto"] = "";
-    jsonObject["PromoStartDate"] = "";
-    jsonObject["PromoState"] = "";
-    jsonObject["PromoTC"] = "";
-    jsonObject["PromoTitle"] = "";
     
-    var jsonString=JSON.stringify(jsonObject);
-    var hashedStr=SHA1(jsonString+sha1Key);
-    var postString=strName+"="+jsonString+"|||"+hashedStr;
-
-    
-    $.ajax({
-      url: webUrl,
-      type: "POST",
-      data:postString,
+   $.ajax({
+      url: webApiClass,
+      type: "Get",
       headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-        "Content-Length": postString.length,
+        "Content-Type": "application/x-www-form-urlencoded"
       },
       timeout: apiTimeout,    
       success: function(data, status, xhr) {
         debugger;        
-        
-          var returnStr=data.split("|||");
-          var newJsonObj=$.parseJSON(returnStr[0]);
-//          alert(returnStr);
           
-          for(var x=0; x<newJsonObj.length; x++){  
-            var date=newJsonObj[x].start
-            $("#scrollulPromotion").append("<li><div class='promoDiv'><img class='promoImageSeperator' src='img/eventSeperator.png' /><img class='promoImage' src='"+newJsonObj[x].PromoPhoto+"'/><span class='promoName'>"+newJsonObj[x].PromoTitle+"</span><br><span class='promoDate'>3rd April 2016</span><button class='btnFb'><img src='img/fbshare.png' /></button></div></li>");
+          for(var x=0; x<data.length; x++){  
+            var date=data[x].start
+            $("#scrollulPromotion").append("<li><div class='promoDiv'><img class='promoImageSeperator' src='img/eventSeperator.png' /><img class='promoImage' src='"+data[x].promoPhoto+"'/><span class='promoName'>"+data[x].promoTitle+"</span><br><span class='promoDate'>3rd April 2016</span><button class='btnFb'><img src='img/fbshare.png' /></button></div></li>");
           }
           
-          if(newJsonObj.length==0){
+          if(data.length==0){
               $("#scrollulPromotion").append("<li><div class='promoDiv'><br><span class=noresult>&nbsp;&nbsp;No result found</span></div></li>");
           }
       },
       error:function (xhr, ajaxOptions, thrownError){
         debugger;
-          
-          alert("Fail connect to server");
-          
+            alert(xhr.responseText);
         }
     })
 }
@@ -539,51 +520,32 @@ function getMerchantPromoList(mID){
 //------------------------------------------------------------------------
 //get branch list
 function getBranchList(mID){
+    var webApiClass=webApiUrl+"api/merchant/branches?entityId="+mID;
     
-    var strName="OutletStr";
-    var jsonObject = {};
-    jsonObject["commandFlag"] = "1";
-    jsonObject["Address"] = "";
-    jsonObject["BranchID"] = "";
-    jsonObject["BranchName"] = "";
-    jsonObject["BusinessEntity"] = mID;
-    jsonObject["Email"] = "";
-    jsonObject["MerchantID"] = "";
-    jsonObject["Phone"] = "";
-    
-    var jsonString=JSON.stringify(jsonObject);
-    var hashedStr=SHA1(jsonString+sha1Key);
-    var postString=strName+"="+jsonString+"|||"+hashedStr;
-
-    $.ajax({
-      url: webUrl,
-      type: "POST",
-      data:postString,
+   $.ajax({
+      url: webApiClass,
+      type: "Get",
       headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-        "Content-Length": postString.length,
+        "Content-Type": "application/x-www-form-urlencoded"
       },
-      timeout: apiTimeout,    
+      timeout: apiTimeout,  
       success: function(data, status, xhr) {
         debugger;        
-            
-          var returnStr=data.split("|||");
-          var newJsonObj=$.parseJSON(returnStr[0]);
+
           var addresses=[];
           var name=[];
-          
-//          $("#scrollulAboutUs li").remove();
-          for(var x=0; x<newJsonObj.length; x++){
-            addresses.push(newJsonObj[x].Address);
-            name.push(newJsonObj[x].BranchName );
+
+          for(var x=0; x<data.length; x++){
+            addresses.push(data[x].branchAddress);
+            name.push(data[x].branchName );
           }
           markPosition(addresses, name); 
           $("#aboutusli").remove();
-          $("#scrollulAboutUs").append("<li id='aboutusli'><div class='aboutus' id='aboutus'><img class='promoImageSeperator' src='img/aboutSeperator.png' /><br><br><h1>About Us</h1><p>Amsterdam, Auckland, Berlin, Brasilia, Brussels, Buenos Aires, Dubai, Dublin, Gurgaon, Hamburg, Hong Kong, Hyderabad, Jakarta, Karlsruhe, Kuala Lumpur, London, Madrid, Melbourne, Mexico City, Milan, Montreal, Mumbai, New Delhi, Paris, Sao Paulo, Seoul, Singapore, Stockholm, Sydney, Tel Aviv, Tokyo, Toronto, Vancouver, Warsaw Amsterdam, Auckland, Berlin, Brasilia, Brussels, Buenos Aires, Dubai, Dublin, Gurgaon, Hamburg, Hong Kong, Hyderabad, Jakarta, Karlsruhe, Kuala Lumpur, London, Madrid, Melbourne, Mexico City, Milan, Montreal, Mumbai, New Delhi, Paris, Sao Paulo, Seoul, Singapore, Stockholm, Sydney, Tel Aviv, Tokyo, Toronto, Vancouver, Warsaw</p><br><h1>Business Hour</h1><p>Mon-Friday&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;7pm-12amSat-Sun&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;7pm-12am</p><br><h1>Contact Info</h1><p>016-1234567</p></div><br></li>");
+          $("#scrollulAboutUs").append("<li id='aboutusli'><div class='aboutus' id='aboutus'><img class='promoImageSeperator' src='img/aboutSeperator.png' /><br><br><h1>About Us</h1><p>"+getUrlParameter("aboutus")+"</p><br><h1>Business Hour</h1><p>"+getUrlParameter("startbh")+"-"+getUrlParameter("endbh")+"</p><br><h1>Contact Info</h1><p>"+getUrlParameter("contact")+"</p></div><br></li>");
       },
       error:function (xhr, ajaxOptions, thrownError){
         debugger;
-          alert("Fail connect to server");
+          alert(xhr.responseText);
         }
     })
 }
@@ -593,15 +555,41 @@ function getBranchList(mID){
 //------------------------------------------------------------------------
 //------------------------------------------------------------------------
 //------------------------------------------------------------------------
+//forgot password
+function postForgotPwd(phoneNo){
+    loading.startLoading();
+    var webApiClass=webApiUrl+"api/profile/forgetPwd?phoneNo="+phoneNo;
+    
+   $.ajax({
+      url: webApiClass,
+      type: "Get",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded"
+      },
+      timeout: apiTimeout,  
+      success: function(data, status, xhr) {
+        debugger;        
+          loading.endLoading();
+          alert(data.sendOutput);
+      },
+      error:function (xhr, ajaxOptions, thrownError){
+        debugger;
+          loading.endLoading();
+          alert("Error: "+xhr.responseText);
+        }
+    })
+}
+
+
+
+
+//------------------------------------------------------------------------
+//------------------------------------------------------------------------
+//------------------------------------------------------------------------
 //getfacebook gallery album list
-function getFbAlbumList(){
+function getFbAlbumList(fbId){
     fbPhotoList=[];
-    var fbId="movementultimate";
-    var accessToken='521613448006826|121e97ebec02027ad471542a599f351e';
-    
-    var fbUrl="https://graph.facebook.com/";
     var getAlbumListUrl=fbUrl+fbId+"/albums?access_token="+accessToken;
-    
     $.ajax({
       url: getAlbumListUrl,
       type: "GET",
@@ -637,9 +625,7 @@ function getFbAlbumList(){
 //------------------------------------------------------------------------
 //get fb photos from albums
 function getFbPhotoList(albumid){
-    var accessToken='521613448006826|121e97ebec02027ad471542a599f351e';
     
-    var fbUrl="https://graph.facebook.com/";
     var getPhotoListUrl=fbUrl+albumid+"/photos?limit=150&access_token="+accessToken;
     
     var nestedajaxcall=$.ajax({

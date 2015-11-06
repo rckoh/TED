@@ -65,15 +65,6 @@
             </div>
             <div class="filterOption">
                 <ul>
-                    <li>All Categories</li>
-                    <li>item2</li>
-                    <li>item3</li>
-                    <li>item4</li>
-                    <li>item5</li>
-                    <li>item6</li>
-                    <li>item7</li>
-                    <li>item8</li>
-                    <li>item9</li>
                 </ul>
             </div>
             <div class="content">
@@ -157,14 +148,7 @@
                     });
                 }
                 slideMenu.initSlideMenu();
-                
-            });
-            
-            
-            $(".filterOption").on('click','li',function (){
-                var buttonvalue=$(this).text();
-                $(".selectedFilter").text(buttonvalue);    
-                filterOnclick();
+                getIndustryList();
             });
         </script>
     </body>

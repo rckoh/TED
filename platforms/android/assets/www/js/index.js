@@ -1,21 +1,3 @@
-/*
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
- */
 var app = {
     // Application Constructor
     initialize: function() {
@@ -77,7 +59,6 @@ var app = {
                 if ( e.regid.length > 0 )
                 {
                     dbmanager.checkFirstRun(function(returnData){
-                        alert(returnData.rows.length);
                         if(returnData.rows.length==0){
                             postDeviceInfo("new", e.regid);
                         }    
@@ -104,7 +85,6 @@ var app = {
         // Your iOS push server needs to know the token before it can push to this device
         // here is where you might want to send it the token for later use.
         dbmanager.checkFirstRun(function(returnData){
-            alert(returnData.rows.length);
             if(returnData.rows.length==0){
                 postDeviceInfo("new", result);
             }    
@@ -145,17 +125,38 @@ function login(){
 function fbLogin(){
     var permission=["public_profile"];
     var fbLoginSuccess = function (userData) {
-//                    alert("UserInfo: " + JSON.stringify(userData));
+                    alert("UserInfo: " + JSON.stringify(userData));
 //                    facebookConnectPlugin.getAccessToken(function(token) {
 //                        alert("Token: " + token);
 //                    }, function(err) {
 //                        alert("Could not get access token: " + err);
 //                    });
-        window.location="home.html";
+//        window.location="home.html";
     }
                 
     facebookConnectPlugin.login(permission, 
                                 fbLoginSuccess, 
                                 function (error) { alert("" + error)}
                                );
+}
+
+function onPrompt(results) {
+//alert("You selected button number " + results.buttonIndex + " and entered " + results.input1);
+    if(results.buttonIndex==1)
+    {
+        if(results.input1.length==0)
+            alert("Phone number invalid");
+        else
+            postForgotPwd(results.input1);
+    }
+}
+
+function loginClickForgotPwd(){
+    navigator.notification.prompt(
+    'Please enter your phone number (example "60171237654")',  // message
+    onPrompt,                  // callback to invoke
+    'Forgot Password',            // title
+    ['Ok','Exit'],             // buttonLabels
+    'Phone Number'                 // defaultText
+    );
 }

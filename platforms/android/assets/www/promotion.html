@@ -47,17 +47,22 @@
                     <button class="buttonbg" onclick="window.history.back();"><img class="menubutton" src="img/previous.png"></img></button>
                 </div>
                 <div class="menuheaderright">
-                    <button class="pagetitle">MOVEMENT ULTIMATE CLUB</button>
+                    <button class="pagetitle"></button>
                     <button class="pageTitileImgBG" id="pageTitileImgBG" onclick=""><img class="pageTitileImg" src="img/logo.png"></img></button>
                 </div>
             </div>
             <div class="promoHeaderDiv">                
                 <div class="imageDiv">
-                    <span class="merchantName">MOVEMENT ULTIMATE CLUB</span>                
+                    <span class="merchantName"></span>                
                     <img class="merchantImage" src="" />
                     <script type="text/javascript">
                         var merchantPhoto=getUrlParameter("photo");
                         $(".merchantImage").attr("src", merchantPhoto);
+                        
+                        var merchantName=getUrlParameter("name");
+                        $(".merchantImage").append(merchantName);
+                        $(".pagetitle").append(merchantName);
+                        
                     </script>
                 </div>
             </div>
@@ -221,16 +226,14 @@
                 $(".pagethree li").css("height", newImageHeight);
                 
                 initPromoList();
-                getFbAlbumList();
                 
+                var fbid=getUrlParameter("fbid");
+                
+                if(fbid!=""){
+                    getFbAlbumList(fbid);
+                }
             });
-            
-            
-            $(".filterOption").on('click','li',function (){
-                var buttonvalue=$(this).text();
-                $(".selectedFilter").text(buttonvalue);    
-                filterOnclick();
-            });
+
         </script>
     </body>
 </html>
