@@ -125,9 +125,9 @@ function login(){
 function fbLogin(){
     var permission=["public_profile"];
     var fbLoginSuccess = function (userData) {
-        facebookConnectPlugin.api("/me?fields=id,email,name&access_token="+userData.authResponse.access_token, permission,
+        facebookConnectPlugin.api("/me?fields=id,email,name&access_token="+userData.authResponse.accessToken, permission,
         function (result) {
-            alert("user Result: " + JSON.stringify(userData.authResponse.access_token));
+            alert("user Result: " + JSON.stringify(userData.authResponse.accessToken));
             alert("Result: " + JSON.stringify(result));
             /* alerts:
                 {
