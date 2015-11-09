@@ -8,7 +8,7 @@ var fbPhotoList=[];
 var appV="1.0.0";
 var accessToken='521613448006826|121e97ebec02027ad471542a599f351e';//facebook access token
 var fbUrl="https://graph.facebook.com/";
-var fbsharelink="http://cloud.projeksistematik.com.my/ted/";
+var fbsharelink="http://cloud.projeksistematik.com.my/ted/web/promodetail.aspx?promoid=";
 //------------------------------------------------------------------------
 //------------------------------------------------------------------------
 //------------------------------------------------------------------------
