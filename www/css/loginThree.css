@@ -1,0 +1,314 @@
+* {
+    -webkit-tap-highlight-color: rgba(0,0,0,0); /* make transparent link selection, adjust last value opacity 0 to 1.0 */
+}
+
+@font-face {
+    font-family: 'Roboto-Regular'; /*a name to be used later*/
+    src: url('../font/Roboto-Regular.ttf'); /*URL to font*/
+}
+
+@font-face {
+    font-family: 'Roboto-Bold'; /*a name to be used later*/
+    src: url('../font/Roboto-Bold.ttf'); /*URL to font*/
+}
+
+@font-face {
+    font-family: 'Roboto-Light'; /*a name to be used later*/
+    src: url('../font/Roboto-Light.ttf'); /*URL to font*/
+}
+
+::-webkit-input-placeholder { /* WebKit, Blink, Edge */
+    color:    #565656;
+    opacity:  0.4;
+}
+:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+   color:    #565656;
+   opacity:  0.4;
+}
+::-moz-placeholder { /* Mozilla Firefox 19+ */
+   color:    #565656;
+   opacity:  0.4;
+}
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+   color:    #565656;
+    opacity:  0.4;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width:100%;
+    overflow: hidden;
+    -webkit-touch-callout: none;                /* prevent callout to copy image, etc when tap to hold */
+    -webkit-text-size-adjust: none;             /* prevent webkit from resizing text to fit */
+    -webkit-user-select: none;
+    -webkit-overflow-scrolling: touch;
+    /* prevent copy paste, to allow, change 'none' to 'text' */
+/*    background-color:#53DCDF;*/
+    background-color: #32978f;
+    font-family:'HelveticaNeue-Light', 'HelveticaNeue', Helvetica, Arial, sans-serif;
+    font-size:2.4vw;
+    text-transform:uppercase;
+    background: URL("../img/bg.png");
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+}
+
+button:focus { 
+    outline:0 !important; 
+}
+
+ul{
+    list-style-type: none;
+    padding: 0px 0px 0px 0px;
+}
+
+li:hover{
+    background-color: aqua;
+}
+
+input{
+    text-indent: 10px;
+    background-color: #44c5c7; 
+    color: white;
+    border: 1px solid white;
+    border-color:white;
+    border-style: solid;
+    
+}
+
+input:focus { 
+    outline:0 !important; 
+}
+
+:-webkit-input-placeholder { /* WebKit, Blink, Edge */
+    color:    #ffffff;
+    opacity:  0.4;
+}
+:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+   color:    #ffffff;
+   opacity:  0.4;
+}
+:-moz-placeholder { /* Mozilla Firefox 19+ */
+   color:    #ffffff;
+   opacity:  0.4;
+}
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+   color:    #ffffff;
+    opacity:  0.4;
+}
+
+
+.app {
+/*    background:url(../img/pssb_logo.png) no-repeat center top;  170px x 200px */
+    
+/*    left:50%;*/
+/*    top:50%;*/
+    height:100%;                    
+    width:100%;                    
+/*    text-align:center;*/
+    padding:0px 0px 0px 0px;     /* image height is 200px (bottom 20px are overlapped with text) */
+    margin:0px 0px 0px 0px;  /* offset vertical: half of image height and text area height */
+                                   /* offset horizontal: half of text area width */
+
+}
+
+.event {
+    border-radius:4px;
+    -webkit-border-radius:4px;
+    color:#FFFFFF;
+    font-size:2.4vw;
+    margin:0px 30px;
+    padding:2px 0px;
+}
+
+.event.listening {
+    background-color:#333333;
+    display:block;
+}
+
+.event.received {
+    background-color:#4B946A;
+    display:none;
+}
+
+@keyframes fade {
+    from { opacity: 1.0; }
+    50% { opacity: 0.4; }
+    to { opacity: 1.0; }
+}
+ 
+@-webkit-keyframes fade {
+    from { opacity: 1.0; }
+    50% { opacity: 0.4; }
+    to { opacity: 1.0; }
+}
+ 
+.blink {
+    animation:fade 3000ms infinite;
+    -webkit-animation:fade 3000ms infinite;
+}
+
+
+/* ------------------------------------------------------------------------------------*/
+/* ------------------------------------------------------------------------------------*/
+/* ------------------------------------------------------------------------------------*/
+/* Login Style*/
+.content{
+	position:absolute;
+    height: 100%;
+    width: 100%;
+}
+
+.appLogoFrame{
+    position: absolute;
+    top: 10%;
+    width: 100%;
+    height: 20%;
+}
+
+.appLogo{
+    width: 60%;
+    height: auto;
+    display: none;
+/*    display: inline-block;*/
+}
+
+.RegDetails{
+    position: absolute;
+    height: 45%;
+    width: 100%;
+    top: 40%;
+    align-items: center;
+    top: 20%;
+}
+
+
+.confirmPwdTextBox{
+    position: absolute;
+    right: 20%;
+    height: 12%;
+    width: 60%;
+    top: 30%;
+    background-color: white;
+    font-size: 4vw;
+    color: #565656;
+    font-family: "times new roman ";
+}
+
+.pwdTextBox{
+    position: absolute;
+    right: 20%;
+    height: 12%;
+    width: 60%;
+    top: 10%;
+    background-color: white;
+    font-size: 4vw;
+    color: #565656;
+    font-family: "times new roman ";
+}
+
+.tacTextBox{
+    position: absolute;
+    right: 20%;
+    height: 12%;
+    width: 60%;
+    top: 50%;
+    background-color: white;
+    font-size: 4vw;
+    color: #565656;
+    font-family: "times new roman ";
+}
+
+
+.btnNext{
+    position: absolute;
+    left: 20%;
+    top: 75%;
+    height: 15%;
+    background-color: black;
+    width: 60%;
+    font-size: 4vw;
+    border: none;
+    color: yellow;
+    font-family: "times new roman ";
+    margin:0 0 0 0;
+    padding:0 0 0 0;
+    border-radius: 5px 5px 5px 5px;
+}
+
+.btnTerms{
+    position: absolute;
+    left: 0%;
+    top: 93%;
+    height: 15%;
+    background-color: transparent;
+    width: 100%;
+    font-size: 3.5vw;
+    border: none;
+    color: yellow;
+    font-family: "times new roman ";
+    margin:0 0 0 0;
+    padding:0 0 0 0;
+    border-radius: 5px 5px 5px 5px;
+}
+
+.termsDiv{
+    position: absolute;
+    left: 20%;
+    top: 108%;
+    height: 15%;
+    background-color: transparent;
+    width: 60%;
+    font-size: 3.5vw;
+    border: none;
+    color: white;
+    font-family: "times new roman ";
+    margin:0 0 0 0;
+    padding:0 0 0 0;
+    border-radius: 5px 5px 5px 5px;
+}
+
+.termsCheckBox{
+    position: absolute;
+    width: 15%;
+    display: inline;
+}
+
+.pTerms{
+    position: absolute;
+    widows: 85%;
+    left: 15%;
+    display: inline;
+    text-transform: capitalize;
+}
+
+input[type=checkbox]
+{
+  /* Double-sized Checkboxes */
+  -ms-transform: scale(1.3); /* IE */
+  -moz-transform: scale(1.3); /* FF */
+  -webkit-transform: scale(1.3); /* Safari and Chrome */
+  -o-transform: scale(1.3); /* Opera */
+/*  padding: 10px;*/
+}
+
+
+.btnClose{
+    position: absolute;
+    width:20%;
+    right: 0%;
+    height: 10%;
+    background-color: transparent;
+    border: none;
+}
+
+.btnClose img{
+    height: 100%;
+    width: auto;
+}
+/* Login Style end*/
+/* ------------------------------------------------------------------------------------*/
+/* ------------------------------------------------------------------------------------*/
+/* ------------------------------------------------------------------------------------*/

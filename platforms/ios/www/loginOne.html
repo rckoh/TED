@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="msapplication-tap-highlight" content="no" />
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, minimum-scale=1, width=device-width, target-densitydpi=medium-dpi" />
+        <title>Home Page</title>
+        <script type="text/javascript" src="cordova.js"></script>
+        <script type="text/javascript" src="js/jquery-mobile/jquery-1.11.3.min.js"></script>
+        <script type="text/javascript" src="js/jquery-mobile/jquery.mobile-1.4.5.js"></script>
+        <script type="text/javascript" src="js/loginOne.js"></script>
+        <script type="text/javascript" src="js/webRequest.js"></script>
+        <script type="text/javascript" src="js/common.js"></script>
+        <link rel="stylesheet" type="text/css" href="css/common.css" />
+        <link rel="stylesheet" type="text/css" href="css/loginOne.css" />
+        <script type="text/javascript">
+            $(document).bind('mobileinit',function(){
+                $.mobile.loadingMessage = false;
+            })
+        </script>  
+        <script type="text/javascript">
+            document.addEventListener("deviceready", onDeviceReady, false);
+            
+            function onDeviceReady() {
+                document.addEventListener("backbutton", onBackKeyDown, false);
+            }
+            
+            function onBackKeyDown(e) {
+              e.preventDefault();  
+            }
+            
+            
+        </script>
+    </head>
+    <body>
+        <div data-role="app" class="app" id="app">
+            <div class="content">
+                <button class="btnClose" onclick="closeRegister();"><img src="img/x.png"/></button>
+                <div class="RegDetails">
+                    <input class="countryTextBoxCode" type="text" disabled=disabled value="60"></input>
+                    <input class="countryTextBoxDesc" type="text" disabled=disabled value="MALAYSIA"></input>
+                    <input class="phoneTextBox" placeholder="PHONE NO" type="text" maxlength="15" id="phoneno"></input>
+                    
+                    <button class="btnNext" onclick="nextonclick();">NEXT</button>
+                </div>  
+            </div>
+        </div>
+        <script type="text/javascript">
+            app.initialize();
+            dbmanager.initdb();
+            $(document).ready(function(){
+                
+            });
+
+        </script>
+    </body>
+</html>

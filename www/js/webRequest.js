@@ -1,7 +1,8 @@
 var webUrl = "http://cloud.projeksistematik.com.my/ted_app/sch/searchdata.aspx";
-var webApiUrl = "http://192.168.1.19/mobile_rewards_api/";
+//var webApiUrl = "http://192.168.1.19/mobile_rewards_api/";
+var webApiUrl = "http://cloud.projeksistematik.com.my/ted_api/";
 //var webUrl = "http://192.168.1.19/MOBILE_REWARDS_APP/sch/searchdata.aspx";
-var apiTimeout=5000;
+var apiTimeout=20000;
 var sha1Key="8809377";
 var fbPhotoList=[];
 var appV="1.0.0";
@@ -89,7 +90,7 @@ function successFirstRun(){
 //------------------------------------------------------------------------
 //login
 function postLogin(username, pwd){
-    
+    loading.startLoading();
     var webApiClass=webApiUrl+"api/profile/phonelogin";
     var loginType, imeiNo, loginId, loginPwd;
     
@@ -116,6 +117,7 @@ function postLogin(username, pwd){
       },
       error:function (xhr, ajaxOptions, thrownError){
         debugger;
+          loading.endLoading();
           alert(xhr.responseText);
         }
     })
@@ -145,6 +147,7 @@ function storeProfile(name, ic, email, phone, address1, address2, postcode, city
 }
 
 function errorLogin(err){
+    loading.endLoading();
     alert('Login failed');
 //    navigator.notification.alert("Login failed.", function(){}, "myTed", "Ok");
 //    loading.endLoading();
@@ -152,7 +155,7 @@ function errorLogin(err){
 
 function successLogin(){
 //    alert('insert success');
-//    loading.endLoading();
+    loading.endLoading();
     window.location="home.html";
 }
 
@@ -559,7 +562,7 @@ function getBranchList(mID){
 function postForgotPwd(phoneNo){
     loading.startLoading();
     var webApiClass=webApiUrl+"api/profile/forgetPwd?phoneNo="+phoneNo;
-    
+
    $.ajax({
       url: webApiClass,
       type: "Get",
@@ -581,6 +584,90 @@ function postForgotPwd(phoneNo){
 }
 
 
+//------------------------------------------------------------------------
+//------------------------------------------------------------------------
+//------------------------------------------------------------------------
+//registration process
+function registerStepOne(phoneNo){
+    loading.startLoading();
+    var webApiClass=webApiUrl+"api/profile/step1?phoneno="+phoneNo;
+    
+   $.ajax({
+      url: webApiClass,
+      type: "Get",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded"
+      },
+      timeout: apiTimeout,  
+      success: function(data, status, xhr) {
+        debugger;        
+          window.location="loginTwo.html?phoneno="+phoneNo+"&name="+data.name+"&email="+data.email;
+      },
+      error:function (xhr, ajaxOptions, thrownError){
+        debugger;
+          loading.endLoading();
+          alert("Error: "+xhr.responseText);
+        }
+    })
+}
+
+function registerStepTwo(name, email, phoneno){
+    loading.startLoading();
+    var webApiClass=webApiUrl+"api/profile/step2";
+    
+    var valueStr=name+email+phoneno+sha1Key;
+    var hashedStr=SHA1(valueStr);
+    
+    $.ajax({
+      url: webApiClass,
+      type: "POST",
+      data:"name="+name+"&email="+email+"&phoneNo="+phoneno+"&checksum="+hashedStr,
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded"
+      },
+      timeout: apiTimeout,  
+      success: function(data, status, xhr) {
+        debugger;        
+//          alert(JSON.stringify(data));
+          window.location="loginThree.html?name="+name+"&email="+email+"&phoneno="+phoneno;
+      },
+      error:function (xhr, ajaxOptions, thrownError){
+        debugger;
+          loading.endLoading();
+          alert("Error: "+xhr.responseText);
+        }
+    })
+}
+
+function registerStepThree(name, email, phoneno, tac, loginpwd){
+    loading.startLoading();
+    var webApiClass=webApiUrl+"api/profile/step3";
+    
+    var valueStr=name+email+phoneno+tac+loginpwd+device.uuid+sha1Key;
+    var hashedStr=SHA1(valueStr);
+    
+    $.ajax({
+      url: webApiClass,
+      type: "POST",
+      data:"name="+name+"&email="+email+"&phoneNo="+phoneno+"&tacNo="+tac+"&loginPwd="+loginpwd+"&imeiNo="+device.uuid+"&checksum="+hashedStr,
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded"
+      },
+      timeout: apiTimeout,  
+      success: function(data, status, xhr) {
+        debugger;        
+//          alert(JSON.stringify(data));
+//          window.location="loginThree.html";
+          loading.endLoading();
+          postLogin(phoneno, loginpwd);
+      },
+      error:function (xhr, ajaxOptions, thrownError){
+        debugger;
+          loading.endLoading();
+          alert("Error: "+xhr.responseText);
+        }
+    })
+}
 
 
 //------------------------------------------------------------------------
