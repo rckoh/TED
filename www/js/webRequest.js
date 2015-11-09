@@ -539,7 +539,7 @@ function getMerchantPromoList(mID){
           
           for(var x=0; x<data.length; x++){  
             var date=data[x].start
-            var promolink='"'+fbsharelink+data[x].id+'"';
+            var promolink='"'+fbsharelink+data[x].promoId+'"';
             
             $("#scrollulPromotion").append("<li><div class='promoDiv'><img class='promoImageSeperator' src='img/eventSeperator.png' /><img class='promoImage' src='"+data[x].promoPhoto+"'/><span class='promoName'>"+data[x].promoTitle+"</span><br><span class='promoDate'>3rd April 2016</span><button class='btnFb' onclick='FBShowDialog("+promolink+");'><img src='img/fbshare.png' /></button></div></li>");
           }
@@ -557,13 +557,12 @@ function getMerchantPromoList(mID){
 
 
 function FBShowDialog(promolink) { 
-    alert(promolink);
                 facebookConnectPlugin.showDialog( {
                             method: "share",
-                            href: 'https://developers.facebook.com/docs/',
+                            href: promolink,
                         }, 
-                    function (response) { alert(JSON.stringify(response)) },
-                    function (response) { alert(JSON.stringify(response)) });
+                    function (response) { alert("Post shared") },
+                    function (response) { alert("Failed to share post") });
 }
 
 //------------------------------------------------------------------------
