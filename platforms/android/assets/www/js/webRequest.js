@@ -561,8 +561,8 @@ function FBShowDialog(promolink) {
                             method: "share",
                             href: promolink,
                         }, 
-                    function (response) { alert("Post shared") },
-                    function (response) { alert("Failed to share post") });
+                    function (response) {},
+                    function (response) {});
 }
 
 //------------------------------------------------------------------------
