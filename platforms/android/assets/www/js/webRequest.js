@@ -8,7 +8,7 @@ var fbPhotoList=[];
 var appV="1.0.0";
 var accessToken='521613448006826|121e97ebec02027ad471542a599f351e';//facebook access token
 var fbUrl="https://graph.facebook.com/";
-
+var fbsharelink="http://cloud.projeksistematik.com.my/ted/";
 //------------------------------------------------------------------------
 //------------------------------------------------------------------------
 //------------------------------------------------------------------------
@@ -539,7 +539,9 @@ function getMerchantPromoList(mID){
           
           for(var x=0; x<data.length; x++){  
             var date=data[x].start
-            $("#scrollulPromotion").append("<li><div class='promoDiv'><img class='promoImageSeperator' src='img/eventSeperator.png' /><img class='promoImage' src='"+data[x].promoPhoto+"'/><span class='promoName'>"+data[x].promoTitle+"</span><br><span class='promoDate'>3rd April 2016</span><button class='btnFb'><img src='img/fbshare.png' /></button></div></li>");
+            var promolink='"'+fbsharelink+data[x].id+'"';
+            
+            $("#scrollulPromotion").append("<li><div class='promoDiv'><img class='promoImageSeperator' src='img/eventSeperator.png' /><img class='promoImage' src='"+data[x].promoPhoto+"'/><span class='promoName'>"+data[x].promoTitle+"</span><br><span class='promoDate'>3rd April 2016</span><button class='btnFb' onclick='FBShowDialog("+promolink+");'><img src='img/fbshare.png' /></button></div></li>");
           }
           
           if(data.length==0){
@@ -553,6 +555,16 @@ function getMerchantPromoList(mID){
     })
 }
 
+
+function FBShowDialog(promolink) { 
+    alert(promolink);
+                facebookConnectPlugin.showDialog( {
+                            method: "share",
+                            href: 'https://developers.facebook.com/docs/',
+                        }, 
+                    function (response) { alert(JSON.stringify(response)) },
+                    function (response) { alert(JSON.stringify(response)) });
+}
 
 //------------------------------------------------------------------------
 //------------------------------------------------------------------------
