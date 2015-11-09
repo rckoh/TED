@@ -149,7 +149,7 @@ input:focus {
 
 .menuheaderleft{
     height: 100%;
-    width: 10%;
+    width: 15%;
 }
 
 .menuheaderright{
@@ -157,19 +157,19 @@ input:focus {
     top:0;
     right:0;
     height:100%;
-    width:90%;
+    width:85%;
     background-color: transparent;
 }
 
 .menubutton{
-    width: 100%;
-    height: auto;
+    width: auto;
+    height: 100%;
     background-color: transparent;
 }
 
 
 .buttonbg{
-    width: 10%;
+    width: 15%;
     height: 100%;
     background-color: transparent;
     border:none;
@@ -209,7 +209,7 @@ input:focus {
 }
 
 .pageTitileImg{
-    width: 100%;
+    width: auto;
     height: 100%;
     background-color: transparent;
     vertical-align: middle;
@@ -487,8 +487,8 @@ input:focus {
 }
 
 .aboutUsCloseBtn img{
-    height: auto;
-    width: 100%;
+    height: 100%;
+    width: auto;
     background-color: transparent;
 }
 

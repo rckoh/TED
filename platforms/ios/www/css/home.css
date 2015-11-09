@@ -60,7 +60,8 @@
 
 .selectedFilter{
     font-family: "times new roman";
-    font-size: 3vw;
+    font-size: 3.5vw;
+    font-weight: bold;
     line-height: 100%;
     max-width: 80%;
     overflow: hidden;
@@ -87,7 +88,8 @@
     z-index: 89;
     text-align: center;
     font-family: "times new roman";
-    font-size: 3vw;
+    font-size: 3.5vw;
+    font-weight: bold;
     max-height: 10%;
     overflow: auto;
     display: none;
@@ -180,7 +182,8 @@
 
 .merchantName{
     font-family: "times new roman";
-    font-size: 3vw;
+    font-size: 3.5vw;
+    font-weight: bold;
     margin: 0 0 0 5%;
 }
 
@@ -188,7 +191,7 @@
     position: absolute;
     background-color: rgba(0,0,0,0.7);
     font-family: "times new roman";
-    font-size: 4vw;
+    font-size: 3vw;
     z-index: 2;
     color: white;
     top:30%;
@@ -205,7 +208,7 @@
     position: absolute;
     background-color: rgba(0,0,0,0.7);
     font-family: "times new roman";
-    font-size: 4vw;
+    font-size: 3vw;
     z-index: 2;
     color: white;
     top:50%;
