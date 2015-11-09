@@ -148,8 +148,8 @@ function postFBLogin(fbid, fbname, fbemail){
       timeout: apiTimeout,  
       success: function(data, status, xhr) {
         debugger;        
-          alert(JSON.stringify(data));
-//          storeProfile(data.name, data.ic, data.email, data.phone, data.address1, data.address2, data.postCode, data.city, data.stateId);
+//          alert(JSON.stringify(data));
+          storeProfile(data.name, data.ic, data.email, data.phone, data.address1, data.address2, data.postCode, data.city, data.stateId);
       },
       error:function (xhr, ajaxOptions, thrownError){
         debugger;
