@@ -127,13 +127,11 @@ function fbLogin(){
     var fbLoginSuccess = function (userData) {
         facebookConnectPlugin.api("/me?fields=id,email,name&access_token="+userData.authResponse.accessToken, permission,
         function (result) {
-            alert("Result: " + JSON.stringify(result));
-            /* alerts:
-                {
-                    "id": "000000123456789",
-                    "email": "myemail@example.com"
-                }
-            */
+            var name=result.name;
+            var email=result.email;
+            var fbid=result.id;
+            
+            postFBLogin(fbid, name, email);
         },
         function (error) {
             alert("Facebook login failed: " + JSON.stringify(error));

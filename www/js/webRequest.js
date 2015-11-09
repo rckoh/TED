@@ -123,6 +123,42 @@ function postLogin(username, pwd){
     })
 }
 
+
+function postFBLogin(fbid, fbname, fbemail){
+    loading.startLoading();
+    var webApiClass=webApiUrl+"api/profile/fblogin";
+    var id, imeiNo, name, email;;
+    
+    id=fbid;
+    imeiNo=device.uuid;
+    name=fbname;
+    email=fbemail;
+
+    var valueStr=id+imeiNo+name+email+sha1Key;
+    var hashedStr=SHA1(valueStr);
+    
+    $.ajax({
+      url: webApiClass,
+      type: "POST",
+      data:"id="+id+"&imeiNo="+imeiNo+"&name="+name+"&email="+email
+        +"&checksum="+hashedStr,
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded"
+      },
+      timeout: apiTimeout,  
+      success: function(data, status, xhr) {
+        debugger;        
+          alert(JSON.stringify(data));
+//          storeProfile(data.name, data.ic, data.email, data.phone, data.address1, data.address2, data.postCode, data.city, data.stateId);
+      },
+      error:function (xhr, ajaxOptions, thrownError){
+        debugger;
+          loading.endLoading();
+          alert(xhr.responseText);
+        }
+    })
+}
+
 function storeProfile(name, ic, email, phone, address1, address2, postcode, city, statedesc) {
     var db = window.openDatabase("Database", "1.0", "TED", 200000);
     var profile = {
