@@ -125,8 +125,9 @@ function login(){
 function fbLogin(){
     var permission=["public_profile"];
     var fbLoginSuccess = function (userData) {
-        facebookConnectPlugin.api(userData.userID+"/?fields=id,email,name", permission,
+        facebookConnectPlugin.api("/me?fields=id,email,name", permission,
         function (result) {
+            alert("user Result: " + JSON.stringify(userData));
             alert("Result: " + JSON.stringify(result));
             /* alerts:
                 {
