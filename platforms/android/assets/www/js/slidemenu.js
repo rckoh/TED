@@ -106,7 +106,15 @@ function closeAboutUs(){
 }
 
 function logoutOnClick(){
-    deleteProfile();
+    navigator.notification.confirm("Are you sure you want to logout now?", onConfirm, "Logout", "Logout,Cancel");     
+}
+
+function onConfirm(button) {
+    if(button==2){//If User selected No, then we just do nothing
+        return; 
+    }else{
+        deleteProfile();
+    }
 }
 
 function deleteProfile() {
@@ -130,13 +138,22 @@ function successDeleteProfile(){
 }
 
 function forgotPwdOnClick(){
-    clickmenubutton();
     dbmanager.getProfile(function(returnData){
-        postForgotPwd(returnData.rows.item(0).PHONE);
+        var email=returnData.rows.item(0).EMAIL;
+        navigator.notification.confirm("Email will be sent to "+email+" for you to set new password. Click ok to proceed", onForgotPasswordConfirm, "Forgot Password", "Cancel,Ok");     
     });
-    
 }
 
+function onForgotPasswordConfirm(button) {
+    if(button==1){//If User selected No, then we just do nothing
+        return; 
+    }else{
+        clickmenubutton();
+        dbmanager.getProfile(function(returnData){
+            postForgotPwd(returnData.rows.item(0).PHONE);
+        });
+    }
+}
 //----------------------------------------------------------
 //----------------------------------------------------------
 //----------------------------------------------------------

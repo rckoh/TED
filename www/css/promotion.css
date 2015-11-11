@@ -421,10 +421,10 @@
 }
 
 .geolocationDiv{
-    height: 100%;
+    height: 50vw;
     width: 100%;
-/*    position: absolute;*/
-/*    background-color: green;*/
+    position: absolute;
+    background-color: transparent;
 }
 /* listview Style Page 1 end*/
 /* ------------------------------------------------------------------------------------*/
